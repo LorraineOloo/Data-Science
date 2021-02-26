@@ -37,7 +37,7 @@ knitr::opts_chunk$set(
 # If you discussed this assignment with any of your peers, please list who here:
 
 > ANSWER:
-
+Teddy Baraza, Lovemore Nyaumwe
 
 
 \newpage
@@ -83,12 +83,23 @@ ggplot(data = mpg) +
 
 Use the `MLB_teams` data in the `mdsr` package to create an informative data graphic that illustrates the relationship between winning percentage and payroll in context. What story does your graph tell?
 
-> ANSWER:
+> ANSWER: The graph shows a moderate positive correlation between the the sum of the salaries of the players on each team (payroll) and the winning percentage. The higher the payroll, the higher the winning percentage was.  
 
 ```{r}
+library(mdsr)
+
+
+ggplot(
+  data = MLB_teams,
+  aes(x = payroll, y = WPct)
+) + 
+  geom_point() + 
+  geom_smooth() + 
+  xlab("payroll") + 
+  ylab("winning percentage")
 
 ```
-
+data 
 
 \newpage
 # MDSR Exercise 3.10 (modified)
@@ -98,8 +109,12 @@ Using data from the `nasaweather` package, use the `geom_path()` function to plo
 Note: be sure you load the `nasaweather` package and use the `storms` dataset from that package!
 
 ```{r}
+ggplot(data = storms, aes(x = long, y = lat, color = name))+geom_path() + facet_wrap(~ year) + 
+scale_color_discrete(guide="none")
+
 
 ```
+
 
 
 \newpage
@@ -114,5 +129,27 @@ For the calendar assignment:
 Note that you are not wed to the ideas you record here.  The visualizations and table can change before your final submission.But, I want to make sure your plan aligns with your questions and that you're on the right track.
 
 > ANSWER:
+- Identify what questions you are planning to focus on:
+1. How much time do I spend on social media during a typical weekday and a typical weekend?
+>
+2. How much time do I spend doing my course assignments vs reading/preparing for the course classes?
+
+>
+- Describe two visualizations you imagine creating that help address your questions of interest
+> I will be using bar graphs to show the times. I will use hours to measure the amount of time spent on the activities. To show the difference, I will use color.
+
+
+>
+-Describe one table    
+For the first question, the columns will be:    
+Day of the week, total hours, total minutes, weekday/weekend
+(I will get this data straight from my phone rather than a google calender and create a spreedsheet that I will make sure to be updating after a week)
+
+>
+For the second question, the columns will be:    
+Course, reading hours, reading minutes, assignement hours, assignment minutes
+
+> The reason for also including minutes is incase the hours are to low to be meaningful
+
 
  
