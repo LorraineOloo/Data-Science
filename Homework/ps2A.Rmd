@@ -131,6 +131,10 @@ Now, following the code chunk presented on page 103*, put the data into a wide f
 
 > ANSWER:
 
+Blair	
+Elisha	
+Kerry
+
 ```{r}
 # this will bring up "Pivoting Introduction" vignette in your Help tab
 #vignette("pivot")
