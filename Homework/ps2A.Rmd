@@ -113,11 +113,11 @@ babynames2
 ### b. 
 Following the code presented in Section 5.2.4, create a dataset called `BabyNarrow` that summarizes the total number of people with each name (born between 2000 and 2017), grouped by sex. (Hint: follow the second code chunk on page 102, but don't filter on any particular names.)  Look at the dataset.  Why have we called this dataset "narrow"?
 
-> ANSWER: It has 2 fewer columns compared to the previous data set.
+> ANSWER: in the sex column, one gender is listed first, the next gender is listed next instead of two different columns for the M and F.
 
 ```{r}
 BabyNarrow<- babynames2 %>%
-group_by(name, sex) %>%
+group_by(sex,name) %>%
 summarise(total = sum(n))
 
 BabyNarrow
@@ -134,21 +134,37 @@ Now, following the code chunk presented on page 103*, put the data into a wide f
 ```{r}
 # this will bring up "Pivoting Introduction" vignette in your Help tab
 #vignette("pivot")
+BabyWide <- babynames2 %>%
+  
+group_by(sex, name) %>%
+summarize(total = sum(n)) %>%
+spread(key = sex, value = total, fill = 0)
+
+BabyWide
+
+```
+ 
+>How to combine the 2 r chunks??
+
+```{r}
 BabyWide %>%
-filter(M > 50000, F > 50000) %>%
+filter(M > 10000, F > 10000) %>%
 mutate(ratio = pmin(M / F, F / M) ) %>%
 arrange(desc(ratio)) %>%
 head(3)
-
 ```
+
 
 ### d.
 Lastly, use the `gather()` function (or the `pivot_longer()` function) to put the dataset back into narrow form.  Call this dataset `BabyNarrow2`.  Hint: see Section 5.2.3.  Why are the number of observations in `BabyNarrow2` different from that in `BabyNarrow`?
 
-> ANSWER: 
+> ANSWER: The filter function used in the making of BabyWide where both F and M were > 10000
 
 ```{r}
+BabyNarrow2 <-BabyWide %>% 
+  gather(key = sex, value = total, F, M)
 
-
+BabyNarrow2
+BabyNarrow
 ```
 
