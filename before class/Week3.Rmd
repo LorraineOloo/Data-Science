@@ -1,0 +1,400 @@
+---
+title: "R Notebook"
+output:
+  pdf_document: default
+  html_notebook: default
+---
+
+
+
+```{r}
+library(tidyverse)
+library(mdsr)
+presidential 
+```
+```{r}
+select(presidential, name, party)
+```
+```{r}
+filter(presidential, party == "Republican")
+#Note that the == is a test for equality
+```
+```{r}
+select(
+  filter(presidential, lubridate::year(start) > 1973 & party == "Democratic"), 
+  name
+)
+
+#For example, we can find which Democratic presidents served since Watergate.
+```
+
+```{r}
+presidential %>%
+  filter(lubridate::year(start) > 1973 & party == "Democratic") %>% 
+  select(name)
+
+#This expression is called a pipeline, that is the use of %>%
+```
+
+```{r}
+library(lubridate)
+my_presidents <- presidential %>%
+  mutate(term.length = interval(start, end) / dyears(1))
+my_presidents
+
+```
+```{r}
+my_presidents <- my_presidents %>% 
+  mutate(elected = year(start) - 1)
+my_presidents
+```
+
+
+
+```{r}
+
+my_presidents <- my_presidents %>%
+  mutate(elected = ifelse(elected %in% c(1962, 1973), NA, elected))
+my_presidents
+```
+
+```{r}
+my_presidents <- my_presidents %>% 
+  rename(term_length = term.length)
+my_presidents
+```
+
+```{r}
+my_presidents %>% 
+  arrange(desc(term_length))
+```
+
+```{r}
+my_presidents %>% 
+  arrange(desc(term_length), party, elected)
+```
+
+```{r}
+my_presidents %>%
+  summarize(
+    N = n(), #Just to confirm the correct number of rows is being used
+    first_year = min(year(start)), 
+    last_year = max(year(end)), 
+    num_dems = sum(party == "Democratic"), 
+    years = sum(term_length), 
+    avg_term_length = mean(term_length)
+  )
+```
+
+```{r}
+my_presidents %>% 
+  group_by(party) %>% 
+  summarize(
+    N = n(), 
+    first_year = min(year(start)), 
+    last_year = max(year(end)), 
+    num_dems = sum(party == "Democratic"), 
+    years = sum(term_length), 
+    avg_term_length = mean(term_length)
+  )
+```
+
+
+
+## Extended example: Ben’s time with the Mets
+```{r}
+library(Lahman)
+dim(Teams)#rows and col
+```
+
+```{r}
+mets <- Teams %>% 
+  filter(teamID == "NYN")
+my_mets <- mets %>% 
+  filter(yearID %in% 2004:2012)
+my_mets %>% 
+  select(yearID, teamID, W, L)
+```
+
+
+```{r}
+nrow(mets)
+```
+
+```{r}
+select(filter(Teams, teamID == "NYN" & yearID %in% 2004:2012),
+  yearID, teamID, W, L)
+```
+
+```{r}
+Teams %>%
+  filter(teamID == "NYN" & yearID %in% 2004:2012) %>%
+  select(yearID, teamID, W, L)
+```
+
+
+```{r}
+mets_ben <- Teams %>% 
+  select(yearID, teamID, W, L, R, RA) %>%
+  filter(teamID == "NYN" & yearID %in% 2004:2012)
+mets_ben
+```
+
+
+```{r}
+mets_ben <- mets_ben %>% 
+  rename(RS = R)    # new name = old name
+mets_ben
+```
+
+
+```{r}
+mets_ben <- mets_ben %>% 
+  mutate(WPct = W / (W + L))
+mets_ben
+```
+
+
+```{r}
+mets_ben <- mets_ben %>% 
+  mutate(WPct_hat = 1 / (1 + (RA/RS)^2))
+mets_ben
+```
+
+```{r}
+mets_ben <- mets_ben %>% 
+  mutate(W_hat = WPct_hat * (W + L))
+mets_ben
+```
+
+```{r}
+filter(mets_ben, W >= W_hat)
+```
+
+```{r}
+filter(mets_ben, W < W_hat)
+```
+
+```{r}
+arrange(mets_ben, desc(WPct))
+```
+
+```{r}
+mets_ben %>% 
+  mutate(Diff = W - W_hat) %>% 
+  arrange(desc(Diff))
+```
+
+```{r}
+mets_ben %>%
+  skim(W)
+```
+
+>This tells us that the Mets won nearly 81 games on average during Ben’s tenure, which corresponds almost exactly to a 0.500 winning percentage, since there are 162 games in a regular season.
+
+```{r}
+mets_ben %>% 
+  summarize(
+    num_years = n(), 
+    total_W = sum(W), 
+    total_L = sum(L), 
+    total_WPct = sum(W) / sum(W + L), 
+    sum_resid = sum(W - W_hat)
+  )
+```
+>In these nine years, the Mets had a combined record of 728 wins and 730 losses, for an overall winning percentage of .499. Just one extra win would have made them exactly 0.500! (If we could pick which game, we would definitely pick the final game of the 2007 season. A win there would have resulted in a playoff berth.) However, we’ve also learned that the team under-performed relative to our model by a total of 10.6 games over those nine seasons.
+
+```{r}
+mets_ben <- mets_ben %>% 
+  mutate(
+    gm = case_when(
+      yearID == 2004 ~ "Duquette", 
+      yearID >= 2011 ~ "Alderson", 
+      TRUE ~ "Minaya"
+    )
+  )
+```
+
+```{r}
+mets_ben %>% 
+  group_by(gm) %>% 
+  summarize(
+    num_years = n(), 
+    total_W = sum(W), 
+    total_L = sum(L), 
+    total_WPct = sum(W) / sum(W + L), 
+    sum_resid = sum(W - W_hat)
+  ) %>%
+  arrange(desc(sum_resid))
+```
+
+The full power of the chaining operator is revealed below, where we do all the analysis at once, but retain the step-by-step logic.
+
+```{r}
+Teams %>%
+  select(yearID, teamID, W, L, R, RA) %>%
+  filter(teamID == "NYN" & yearID %in% 2004:2012) %>%
+  rename(RS = R) %>% 
+  mutate(
+    WPct = W / (W + L), 
+    WPct_hat = 1 / (1 + (RA/RS)^2), 
+    W_hat = WPct_hat * (W + L), 
+    gm = case_when(
+      yearID == 2004 ~ "Duquette", 
+      yearID >= 2011 ~ "Alderson", 
+      TRUE ~ "Minaya"
+    )
+  ) %>%
+  group_by(gm) %>%
+  summarize(
+    num_years = n(), 
+    total_W = sum(W), 
+    total_L = sum(L),
+    total_WPct = sum(W) / sum(W + L), 
+    sum_resid = sum(W - W_hat)
+  ) %>%
+  arrange(desc(sum_resid))
+```
+
+Even more generally, we might be more interested in how the Mets performed relative to our model, in the context of all teams during that 9-year period. All we need to do is remove the teamID filter and group by franchise (franchID) instead.
+
+```{r}
+Teams %>%
+  select(yearID, teamID, franchID, W, L, R, RA) %>%
+  filter(yearID %in% 2004:2012) %>%
+  rename(RS = R) %>% 
+  mutate(
+    WPct = W / (W + L), 
+    WPct_hat = 1 / (1 + (RA/RS)^2), 
+    W_hat = WPct_hat * (W + L)
+  ) %>%
+  group_by(franchID) %>%
+  summarize(
+    num_years = n(), 
+    total_W = sum(W), 
+    total_L = sum(L),
+    total_WPct = sum(W) / sum(W + L), 
+    sum_resid = sum(W - W_hat)
+  ) %>%
+  arrange(sum_resid) %>%
+  head(6)
+```
+
+We can see now that only five other teams fared worse than the Mets,10 relative to our model, during this time period. Perhaps they are cursed!
+
+#5.1 inner_join()
+```{r}
+library(tidyverse)
+library(mdsr)
+library(nycflights13)
+glimpse(flights)
+```
+
+```{r}
+head(airlines, 3)
+```
+
+```{r}
+flights_joined <- flights %>% 
+  inner_join(airlines, by = c("carrier" = "carrier"))
+glimpse(flights_joined)
+```
+
+
+```{r}
+flights_joined %>% 
+  select(carrier, name, flight, origin, dest) %>% 
+  head(3)
+```
+
+```{r}
+nrow(flights)
+```
+
+```{r}
+nrow(flights_joined)
+```
+#5.2 left_join()
+Another commonly-used type of join is a left_join(). Here the rows of the first table are always returned, regardless of whether there is a match in the second table.
+
+
+Suppose that we are only interested in flights from the New York City airports on the West Coast. To restrict ourselves to airports in the Pacific Time Zone (UTC -8) we can filter the airports data frame to only include those airports.
+
+```{r}
+airports_pt <- airports %>%
+  filter(tz == -8)
+nrow(airports_pt)
+# unclear what is going on here
+
+```
+
+Now, if we perform an inner_join() on flights and airports_pt, matching the destinations in flights to the FAA codes in airports, we retrieve only those flights that flew to our airports in the Pacific Time Zone.
+
+```{r}
+nyc_dests_pt <- flights %>% 
+  inner_join(airports_pt, by = c("dest" = "faa"))
+nrow(nyc_dests_pt)
+```
+However, if we use a left_join() with the same conditions, we retrieve all of the rows of flights. NA’s are inserted into the columns where no matched data was found.
+
+```{r}
+nyc_dests <- flights %>% 
+  left_join(airports_pt, by = c("dest" = "faa"))
+
+nyc_dests %>%
+  summarize(
+    num_flights = n(),
+    num_flights_pt = sum(!is.na(name)),
+    num_flights_not_pt = sum(is.na(name))
+  )
+```
+
+#5.3 Extended example: Manny Ramirez
+
+```{r}
+library(Lahman)
+manny <- Batting %>%
+  filter(playerID == "ramirma02")
+nrow(manny)
+```
+
+
+```{r}
+manny %>% 
+  summarize(
+    span = paste(min(yearID), max(yearID), sep = "-"), 
+    num_years = n_distinct(yearID), 
+    num_teams = n_distinct(teamID), 
+    BA = sum(H)/sum(AB), 
+    tH = sum(H), 
+    tHR = sum(HR), 
+    tRBI = sum(RBI)
+  )
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
