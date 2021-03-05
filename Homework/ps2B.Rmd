@@ -67,11 +67,14 @@ Pitching3
 
 b. Which of these pitchers had the most accumulated strikeouts?  How many strikeouts had he accumulated?  What is the most strikeouts he had in one season?
 
-> ANSWER: zychto01 had the most accumulated strikeout of 513.
+> ANSWER: ryanno01 had the most accumulated strikeouts of 5714. The most strikeouts he had in one season is 383.	
 
 ```{r}
+Pitching4<- filter(Pitching3, SO== max(Pitching3$SO))
+Pitching4
 
-
+Pitching5<- filter(Pitching, playerID == "ryanno01")
+max(Pitching5$SO)
 ```
 
 
