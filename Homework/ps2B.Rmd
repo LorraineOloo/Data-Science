@@ -86,7 +86,7 @@ max(Pitching5$SO)
 
 a. The Violations data set in the `mdsr` package contains information regarding the outcome of health inspections in New York City.  Use these data to calculate the median violation score by zipcode and dba for zipcodes in Manhattan.  What pattern (if any) do you see between the number of inspections and the median score?  Generate a visualization to support your response.  
 
-> ANSWER:    
+> ANSWER: There is a moderate positive assosiation between the number of inspections and the median score.  
  
 
 ```{r}
@@ -94,32 +94,47 @@ data("Violations")
 Violations1<- Violations %>% drop_na()
 ```
 
-```{r}
-aggregate(Violations1$score,   # Median by group
-          list(Violations1$zipcode),
-          median) 
-```
 
 ```{r}
-Violation2<- filter(Violations1, boro == "MANHATTAN")
+Violation2 <-Violations1 %>%
+  filter(boro == "MANHATTAN") %>%
+  select(zipcode,dba,score,)%>%
+  group_by(zipcode,dba) %>%
+  summarise(num_inspections=n(), med_score=median(score))
+
+g <- ggplot(data = Violation2, aes(y = med_score, x = num_inspections)) + ggtitle("Number of inspections vs the median score") + ylab("median score") + xlab("no. of inspections")
+g + geom_point(size = 1)
+
 ```
-
-
-```{r}
-#g <- ggplot(data = CIACountries, aes(y = gdp, x = educ))
-#g + geom_point(size = 3)
-
-#Violations1<- filter(Violations, score == 17)
-```
-
 
 
 b.  In your visualization in part (a), there should be at least a few points that stand out as outliers.  For *one of the outliers*, add text to the outlier identifying what business it is and an arrow pointing from the text to the observation.  First, you may want to `filter` to identify the name of the business (so you know what text to add to the plot).  
 
 (Can't remember how to create a curved arrow in `ggplot`?  The answers to [this question](https://stackoverflow.com/questions/38008863/how-to-draw-a-nice-arrow-in-ggplot2/61383034) on Stack Exchange may help.  Can't remember how to add text to the plot in `ggplot`?  Check out the text examples with `annotate` [here](https://ggplot2.tidyverse.org/reference/annotate.html), or answers to [this question](https://stackoverflow.com/questions/14351608/color-one-point-and-add-an-annotation-in-ggplot2/14351810) that use `geom_text`.)
 
-```{r}
+>STARBUCKS with 110 total inspections and a median of 9.
 
+```{r}
+#filter(Violation2, num_inspections>105)
+
+context <- tribble(
+  ~num_inspections, ~med_score, ~label,
+  90, 30, "Starbucks")
+
+g + geom_point(size = 1) +
+  geom_text(
+    data = context, 
+    aes(y = med_score, label = label, color = label)
+  ) + 
+  geom_curve(
+    x = 90, xend = 110, y = 30, yend = 10.5, 
+    arrow = arrow(length = unit(0.2, "cm")), curvature = -0.5
+  ) + 
+  scale_color_manual(
+    guide = FALSE, 
+    values = c("black", "#b2d7e9", "darkgray")
+  ) + 
+  ylim(0, 100) + xlim(0, 115)
 
 ```
 
