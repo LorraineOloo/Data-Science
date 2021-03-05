@@ -27,6 +27,7 @@ Steps to proceed:
 ```{r, setup, include=FALSE}
 library(mdsr)   
 library(tidyverse)
+library(mosaic)
 
 knitr::opts_chunk$set(
   tidy=FALSE,     # display code as typed
@@ -70,9 +71,11 @@ b. Which of these pitchers had the most accumulated strikeouts?  How many strike
 > ANSWER: ryanno01 had the most accumulated strikeouts of 5714. The most strikeouts he had in one season is 383.	
 
 ```{r}
+#Maximum strikeout
 Pitching4<- filter(Pitching3, SO== max(Pitching3$SO))
 Pitching4
 
+#player ryanno01 games only
 Pitching5<- filter(Pitching, playerID == "ryanno01")
 max(Pitching5$SO)
 ```
@@ -83,11 +86,33 @@ max(Pitching5$SO)
 
 a. The Violations data set in the `mdsr` package contains information regarding the outcome of health inspections in New York City.  Use these data to calculate the median violation score by zipcode and dba for zipcodes in Manhattan.  What pattern (if any) do you see between the number of inspections and the median score?  Generate a visualization to support your response.  
 
-> ANSWER:  
+> ANSWER:    
+ 
 
 ```{r}
 data("Violations")
+Violations1<- Violations %>% drop_na()
 ```
+
+```{r}
+aggregate(Violations1$score,   # Median by group
+          list(Violations1$zipcode),
+          median) 
+```
+
+```{r}
+Violation2<- filter(Violations1, boro == "MANHATTAN")
+```
+
+
+```{r}
+#g <- ggplot(data = CIACountries, aes(y = gdp, x = educ))
+#g + geom_point(size = 3)
+
+#Violations1<- filter(Violations, score == 17)
+```
+
+
 
 b.  In your visualization in part (a), there should be at least a few points that stand out as outliers.  For *one of the outliers*, add text to the outlier identifying what business it is and an arrow pointing from the text to the observation.  First, you may want to `filter` to identify the name of the business (so you know what text to add to the plot).  
 
@@ -115,6 +140,18 @@ FakeDataLong <- data.frame(grp = c("A","A","B", "B")
                            , sdR = c(0.08, 0.33, 0.07, 0.27))
 
 ```
+
+
+```{r}
+FakeDataLong1 <- FakeDataLong %>%
+gather("statistics", "value", -c("grp", "sex")) %>%
+unite(sex.statistics, c("sex", "statistics"), sep = ".") %>%
+arrange(sex.statistics) %>%
+spread(key = "sex.statistics", value = "value")
+
+```
+
+
 
 \newpage
 # PUG Brainstorming
