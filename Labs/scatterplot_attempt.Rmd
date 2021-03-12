@@ -1,0 +1,92 @@
+---
+title: "Untitled"
+output: html_document
+---
+
+```{r}
+library(shiny)
+library(tidyverse)
+library(ggrepel)
+library(fivethirtyeight)
+library(ggplot2)
+
+# import data #
+Data <- fivethirtyeight::mad_men
+Data1 <- Data %>%
+  mutate(status_correct = case_when(str_detect(status, "End") ~ "END"
+                                    , TRUE ~ status))
+```
+
+```{r}
+library(shiny)
+library(tidyverse)
+library(ggrepel)
+library(fivethirtyeight)
+library(ggplot2)
+
+# import data #
+Data <- fivethirtyeight::mad_men
+Data1 <- Data %>%
+  mutate(status_correct = case_when(str_detect(status, "End") ~ "END"
+                                    , TRUE ~ status))
+
+
+yaxis_values <- c("score", "num_shows", "num_support")
+yaxis_names <- c("Score", "Number of shows", "Number of support")
+names(yaxis_values) <- yaxis_names
+
+# for selectizeInput choices for actor name, pull directly from data
+name_choices <- unique(Data$performer)
+
+
+############
+#    ui    #
+############
+ui <- navbarPage(
+  
+  title="Shows",
+  
+  tabPanel(
+    title = "Scatterplot",
+    
+    sidebarLayout(
+      sidebarPanel(
+        radioButtons(inputId = "yaxis"
+                     , label = "Relationship to the number of leading roles by:"
+                     , choices = yaxis_values
+                     , selected = "score"),
+        selectizeInput(inputId = "id_name"
+                       , label = "Identify actors in the scatterplot:"
+                       , choices = name_choices
+                       , selected = NULL
+                       , multiple = TRUE)
+      ),
+      mainPanel(
+        plotOutput(outputId = "scatter")
+      )
+    )
+  )
+)
+
+############
+# server   #
+############
+server <- function(input,output){
+  
+  # TAB 2: INTERACTIVE SCATTERPLOT 
+  output$scatter <- renderPlot({
+    Data %>%
+      ggplot(aes_string(x="num_lead", y=input$yaxis)) +
+      geom_point(color = "#2c7fb8") +
+      labs(x = "Number of leading roles", y="yaxis_names")+ 
+      geom_label_repel(data = filter(Data, performer %in% input$id_name)) +
+      facet_grid(~status_correct) 
+  })
+}
+
+####################
+# call to shinyApp #
+####################
+shinyApp(ui = ui, server = server)
+```
+
