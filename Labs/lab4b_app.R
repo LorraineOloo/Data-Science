@@ -5,12 +5,20 @@ library(DT)
 library(ggrepel)
 library(fivethirtyeight)
 
-Data <- fivethirtyeight::mad_men %>%
+Data0 <- fivethirtyeight::mad_men %>%
   mutate(status_correct = case_when(str_detect(status, "End") ~ "END"
                                     , TRUE ~ status))
 
 #remove names of performers that are not string for my scatterplot to work
-Data <- Data[-c(16,91,131,188,218), ]
+#Data <- Data[-c(16,91,131,188,218), ]
+Data <- Data0 %>%
+  rename(performer_old = performer) %>%
+  mutate(performer = case_when(str_detect(performer_old, "Freddy Rodr") ~ "Freddy Rodriguez"
+                               , str_detect(performer_old, "Laura Cer") ~ "Laura Cernn"
+                               , str_detect(performer_old, "Sevigny") ~ "Chloe Sevigny"
+                               , str_detect(performer_old, "Lauren V") ~ "Lauren Valez"
+                               , str_detect(performer_old, "Alexander Skarsg") ~ "Alexander Skarsgaard"
+                               , TRUE ~ performer_old))
 
 #Bargraph tab1
 bar_choice_values <- c("num_lead","num_support",
