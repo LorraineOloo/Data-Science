@@ -1,0 +1,184 @@
+---
+title: "Calender Assignment"
+author: "Lorraine Oloo"
+date: "3/16/2021"
+output:
+  pdf_document: default
+  html_document: default
+---
+#Data wrangling
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(tidyverse)
+library(lubridate)
+library(ical)
+library(readxl)
+library(vctrs)
+library(dplyr, warn.conflicts = FALSE)
+```
+
+```{r}
+#calling the data set and setting start time an end time for my times
+my_calendar0 <- ical_parse_df("C:/Users/Lorraine/Dropbox/Data Science/Data-Science/Calender/loloo23@amherst.edu.ical/Data Science_c_qek3ugrgkuhaij3ad2ltmknjgs@group.calendar.google.com.ics") %>%
+  mutate(start_datetime = with_tz(start, tzone = "America/New_York")
+    , end_datetime = with_tz(end, tzone = "America/New_York")
+    , length_hour = end_datetime - start_datetime
+    , date = floor_date(start_datetime, unit = "day"))
+
+my_calendar1 <- arrange(my_calendar0, date)
+```
+
+```{r}
+#the names in my calender
+names(my_calendar1)
+#shows variables in a specific column
+unique(my_calendar1$summary)
+```
+
+
+```{r}
+#combining the variables in sunmmary
+my_calendar1 <- mutate(my_calendar1, summary_correct = str_trim(summary))
+unique(my_calendar1$summary_correct)
+
+#creating day of the week
+my_calendar1 <- mutate(my_calendar1, day_of_week = weekdays(date))
+```
+
+
+```{r}
+#Distinguishing between assignment and reading and the specific courses
+
+#Reading
+my_calendar1 <- my_calendar1 %>%
+  mutate(study0 = case_when(str_detect(summary_correct, "R") ~ "Reading"
+                            ,TRUE ~ summary_correct))
+#Assignment
+my_calendar1 <- my_calendar1 %>%
+  mutate(study1 = case_when(str_detect(study0, "A") ~ "Assignment"
+                            ,TRUE ~ study0))
+#Data Science
+my_calendar1 <- my_calendar1 %>%
+  mutate(course = case_when(str_detect(summary_correct, "D") ~ "Data Science"
+                            ,TRUE ~ summary_correct))
+#Econometrics
+my_calendar1 <- my_calendar1 %>%
+  mutate(course1 = case_when(str_detect(course, "E") ~ "Econometrics"
+                            ,TRUE ~ course))
+#Money and Banking
+my_calendar1 <- my_calendar1 %>%
+  mutate(course2 = case_when(str_detect(course1, "M") ~ "Money and Banking"
+                            ,TRUE ~ course1))
+```
+
+```{r}
+#Weekday or weekend
+my_calendar1 <- my_calendar1 %>% 
+  mutate(type_day = ifelse(day_of_week %in% c("Saturday", "Sunday"), "Weekend", "Weekday"))
+```
+
+```{r}
+#selecting variables I'll be working with
+my_calendar2 <- my_calendar1 %>%
+  select(summary_correct, date, day_of_week, type_day,course2, study1, length_hour)
+
+```
+
+```{r}
+social_media <- read_excel("Social Media.xlsx")
+social_media1 <- arrange(social_media,date)
+#remove PU from the data set
+social_media1 <- filter(social_media1, summary_correct != "PU")
+#Adding day of the week
+social_media1 <- mutate(social_media1, day_of_week = weekdays(date))
+#Weekday or weekend
+social_media1 <- social_media1 %>% 
+  mutate(type_day = ifelse(day_of_week %in% c("Saturday", "Sunday"), "Weekend", "Weekday"))
+```
+
+
+(http://www.sthda.com/english/wiki/ggplot2-barplots-quick-start-guide-r-software-and-data-visualization#bar-plot-with-labels) (to find the summary of my graphs)
+
+###Graphs for my studies
+```{r}
+#A bar graph to show how all the time I spent studying was distributed between my three courses, in reading and doing assignment
+
+# Stacked barplot with multiple groups
+ggplot(data=my_calendar2, aes(x=course2, y=length_hour, fill=study1)) +  geom_bar(stat="identity") + labs(title = "How my time is split between courses",y="number of minutes", x="Course", fill="Study type")
+
+```
+
+
+
+```{r}
+#Boxplot to show the distribution of time spent in courses
+ggplot(data=my_calendar2, aes(x=course2, y=length_hour, fill=study1)) + geom_boxplot() + labs(title = "How my time is split between courses",y="number of minutes", x="Course", fill="Study type")
+```
+
+
+```{r}
+#weekday and weekend boxplot
+ggplot(data=my_calendar2, aes(x=type_day, y=length_hour, fill=study1)) +  geom_boxplot() + labs(title = "How I spend time studying between \n weekdays and weekend",y="number of minutes", x="type of day")
+```
+
+```{r}
+#social media
+ggplot(data=social_media1, aes(x=summary_correct, y=length_hour, fill=summary_correct)) +  geom_bar(stat="identity") + labs(title = "How my time is split between \n Instagram and WhatsApp",y="number of minutes", x="Social Media Platform") + theme_minimal() + scale_fill_discrete(name = "Social Media", labels = c("Instagram", "WhatsApp"))
+```
+
+
+```{r}
+#Boxplot to show the distribution of social media usage
+ggplot(data=social_media1, aes(x=summary_correct, y=length_hour, fill=summary_correct)) + geom_boxplot() + labs(title = "How my time is split between \n Instagram and WhatsApp",y="number of minutes", x="Social Media Platform") + theme_minimal() + scale_fill_discrete(name = "Social Media", labels = c("Instagram", "WhatsApp"))
+```
+
+
+```{r}
+#weekday and weekend boxplot
+ggplot(data=social_media1, aes(x=type_day, y=length_hour, fill=summary_correct)) +  geom_boxplot() + labs(title = "How I spend time studying between \n weekdays and weekend",y="number of minutes", x="type of day") + scale_fill_discrete(name = "Social Media", labels = c("Instagram", "WhatsApp"))
+```
+
+
+```{r}
+social_media1 %>%
+  group_by(type_day,summary_correct)%>%
+  summarize(avg_min = mean(length_hour))
+```
+
+```{r}
+names(social_media1)
+```
+
+
+##Time spent on studying versus on social media 
+```{r}
+#combine data
+my_calendar3 <- my_calendar2 %>% 
+  mutate(length_hour = as.numeric(length_hour))
+
+social_media2 <- social_media1 %>% 
+  mutate(length_hour= as.numeric(length_hour))%>%
+  select(summary_correct, length_hour, day_of_week, type_day)
+
+my_calendar3 <- select(my_calendar3, c(summary_correct, length_hour, day_of_week, type_day))
+
+total <- bind_rows(social_media2, my_calendar3)
+```
+
+```{r}
+
+```
+
+
+
+
+
+
+
+
+
+
