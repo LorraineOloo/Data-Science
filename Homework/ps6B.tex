@@ -1,0 +1,522 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{lmodern}
+\usepackage{ifxetex,ifluatex}
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\hypersetup{
+  pdftitle={STAT 231: Problem Set 6B},
+  pdfauthor={Lorraine Oloo},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+\urlstyle{same} % disable monospaced font for URLs
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\ifluatex
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+
+\title{STAT 231: Problem Set 6B}
+\author{Lorraine Oloo}
+\date{due by 10 PM on Friday, April 2}
+
+\begin{document}
+\maketitle
+
+This homework assignment is designed to help you further ingest,
+practice, and expand upon the material covered in class over the past
+week(s). You are encouraged to work with other students, but all code
+and text must be written by you, and you must indicate below who you
+discussed the assignment with (if anyone).
+
+Steps to proceed:
+
+\begin{enumerate}
+\item In RStudio, go to File > Open Project, navigate to the folder with the course-content repo, select the course-content project (course-content.Rproj), and click "Open" 
+\item Pull the course-content repo (e.g. using the blue-ish down arrow in the Git tab in upper right window)
+\item Copy ps6B.Rmd from the course repo to your repo (see page 6 of the GitHub Classroom Guide for Stat231 if needed)
+\item Close the course-content repo project in RStudio
+\item Open YOUR repo project in RStudio
+\item In the ps6B.Rmd file in YOUR repo, replace "YOUR NAME HERE" with your name
+\item Add in your responses, committing and pushing to YOUR repo in appropriate places along the way
+\item Run "Knit PDF" 
+\item Upload the pdf to Gradescope.  Don't forget to select which of your pages are associated with each problem.  \textit{You will not get credit for work on unassigned pages (e.g., if you only selected the first page but your solution spans two pages, you would lose points for any part on the second page that the grader can't see).} 
+\end{enumerate}
+
+\newpage
+
+\hypertarget{if-you-discussed-this-assignment-with-any-of-your-peers-please-list-who-here}{%
+\section{If you discussed this assignment with any of your peers, please
+list who
+here:}\label{if-you-discussed-this-assignment-with-any-of-your-peers-please-list-who-here}}
+
+\begin{quote}
+ANSWER: Lovemore, Teddy
+\end{quote}
+
+\newpage
+
+\hypertarget{trump-tweets}{%
+\section{Trump Tweets}\label{trump-tweets}}
+
+David Robinson, Chief Data Scientist at DataCamp, wrote a blog post
+\href{http://varianceexplained.org/r/trump-tweets/}{``Text analysis of
+Trump's tweets confirms he writes only the (angrier) Android half''}.
+
+He provides a dataset with over 1,500 tweets from the account
+realDonaldTrump between 12/14/2015 and 8/8/2016. We'll use this dataset
+to explore the tweeting behavior of realDonaldTrump during this time
+period.
+
+First, read in the file. Note that there is a \texttt{TwitteR} package
+which provides an interface to the Twitter web API. We'll use this R
+dataset David created using that package so that you don't have to set
+up Twitter authentication.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{load}\NormalTok{(}\FunctionTok{url}\NormalTok{(}\StringTok{"http://varianceexplained.org/files/trump\_tweets\_df.rda"}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{a-little-wrangling-to-warm-up}{%
+\subsection{A little wrangling to
+warm-up}\label{a-little-wrangling-to-warm-up}}
+
+1a. There are a number of variables in the dataset we won't need.
+
+\begin{itemize}
+\item
+  First, confirm that all the observations in the dataset are from the
+  screen-name \texttt{realDonaldTrump}.
+\item
+  Then, create a new dataset called \texttt{tweets} that only includes
+  the following variables:
+\item
+  \texttt{text}
+\item
+  \texttt{created}
+\item
+  \texttt{statusSource}
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{confirm }\OtherTok{\textless{}{-}} \FunctionTok{subset}\NormalTok{(trump\_tweets\_df, screenName }\SpecialCharTok{==} \StringTok{"realDonaldTrump"}\NormalTok{)}
+\CommentTok{\#has the same number of observations as the original dataset}
+
+\CommentTok{\#creating new dataset}
+\NormalTok{tweets }\OtherTok{\textless{}{-}} \FunctionTok{select}\NormalTok{(trump\_tweets\_df, }\FunctionTok{c}\NormalTok{(text, created, statusSource))}
+\end{Highlighting}
+\end{Shaded}
+
+\newpage
+
+1b. Using the \texttt{statusSource} variable, compute the number of
+tweets from each source. How many different sources are there? How often
+are each used?
+
+\begin{quote}
+ANSWER: There are 5 different sources. Instagram with 1 tweet, Twitter
+Web Client with 120 tweets, Twitter for iPad with 1 tweet, Twitter for
+Android with 762 tweets, and Twitter for iPhone with 628 tweets.
+\end{quote}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{tweets}\SpecialCharTok{\%\textgreater{}\%}
+\FunctionTok{group\_by}\NormalTok{(statusSource)}\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{summarise}\NormalTok{(}\AttributeTok{n =} \FunctionTok{n}\NormalTok{())}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 5 x 2
+##   statusSource                                                                 n
+## * <chr>                                                                    <int>
+## 1 "<a href=\"http://instagram.com\" rel=\"nofollow\">Instagram</a>"            1
+## 2 "<a href=\"http://twitter.com\" rel=\"nofollow\">Twitter Web Client</a>"   120
+## 3 "<a href=\"http://twitter.com/#!/download/ipad\" rel=\"nofollow\">Twitt~     1
+## 4 "<a href=\"http://twitter.com/download/android\" rel=\"nofollow\">Twitt~   762
+## 5 "<a href=\"http://twitter.com/download/iphone\" rel=\"nofollow\">Twitte~   628
+\end{verbatim}
+
+\newpage
+
+1c. We're going to compare the language used between the Android and
+iPhone sources, so only want to keep tweets coming from those sources.
+Explain what the \texttt{extract} function (from the \texttt{tidyverse}
+package) is doing below. Include in your own words what each argument is
+doing. (Note that ``regex'' stands for ``regular expression''.)
+
+\begin{quote}
+ANSWER: Using the contents from the column statusSource, col argument
+creates a new column called source. The regex argument checks for the
+characters between the texts ``Twitter for'' and ``\textless{}'' in the
+statusSource, and records those characters. The remove argument removes
+any other character that is not in the regex.
+\end{quote}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{tweets2 }\OtherTok{\textless{}{-}}\NormalTok{ tweets }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{extract}\NormalTok{(}\AttributeTok{col =}\NormalTok{ statusSource, }\AttributeTok{into =} \StringTok{"source"}
+\NormalTok{          , }\AttributeTok{regex =} \StringTok{"Twitter for (.*)\textless{}"}
+\NormalTok{          , }\AttributeTok{remove =} \ConstantTok{FALSE}\NormalTok{)}\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{filter}\NormalTok{(source }\SpecialCharTok{\%in\%} \FunctionTok{c}\NormalTok{(}\StringTok{"Android"}\NormalTok{, }\StringTok{"iPhone"}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\newpage
+
+\hypertarget{how-does-the-language-of-the-tweets-differ-by-source}{%
+\subsection{How does the language of the tweets differ by
+source?}\label{how-does-the-language-of-the-tweets-differ-by-source}}
+
+2a. Create a word cloud for the top 50 words used in tweets sent from
+the Android. Create a second word cloud for the top 50 words used in
+tweets sent from the iPhone. How do these word clouds compare? (Are
+there some common words frequently used from both sources? Are the most
+common words different between the sources?)
+
+\emph{Don't forget to remove stop words before creating the word cloud.
+Also remove the terms ``https'' and ``t.co''.}
+
+\begin{quote}
+ANSWER:\\
+For Android users, the first three words were:\\
+hillary 135\\
+realdonaldtrump 123\\
+trump 107\\
+For iPhone users, the first three words were:\\
+trump2016 171\\
+makeamericagreatagain 95\\
+amp 56\\
+There are some words that are commonly used by the two different
+sources. Examples are words such as clinton, foxnews, and jobs.
+\end{quote}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#word count for android users}
+\NormalTok{tweetAndroid }\OtherTok{\textless{}{-}}\NormalTok{ tweets2 }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{filter}\NormalTok{(source }\SpecialCharTok{==} \StringTok{"Android"}\NormalTok{)}
+
+\NormalTok{tweet\_Android }\OtherTok{\textless{}{-}}\NormalTok{ tweetAndroid }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{unnest\_tokens}\NormalTok{(}\AttributeTok{output =}\NormalTok{ word, }\AttributeTok{input =}\NormalTok{ text) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{anti\_join}\NormalTok{(stop\_words, }\AttributeTok{by=}\StringTok{"word"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{filter}\NormalTok{(word }\SpecialCharTok{!=} \StringTok{"https"}\NormalTok{ ) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{filter}\NormalTok{(word }\SpecialCharTok{!=} \StringTok{"t.co"}\NormalTok{ ) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{count}\NormalTok{(word, }\AttributeTok{sort =} \ConstantTok{TRUE}\NormalTok{)}
+
+\NormalTok{tweet\_Android }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{with}\NormalTok{(}\FunctionTok{wordcloud}\NormalTok{(}\AttributeTok{words =}\NormalTok{ word, }\AttributeTok{freq =}\NormalTok{ n, }\AttributeTok{max.words=}\DecValTok{50}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{ps6B_files/figure-latex/unnamed-chunk-5-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{head}\NormalTok{(tweet\_Android, }\DecValTok{50}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 50 x 2
+##    word                n
+##    <chr>           <int>
+##  1 hillary           135
+##  2 realdonaldtrump   123
+##  3 trump             107
+##  4 crooked            94
+##  5 people             76
+##  6 clinton            68
+##  7 cruz               60
+##  8 president          52
+##  9 bad                44
+## 10 ted                44
+## # ... with 40 more rows
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# word count for iPhone users}
+\NormalTok{tweetiPhone }\OtherTok{\textless{}{-}}\NormalTok{ tweets2 }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{filter}\NormalTok{(source }\SpecialCharTok{==} \StringTok{"iPhone"}\NormalTok{)}
+
+\NormalTok{tweet\_iPhone }\OtherTok{\textless{}{-}}\NormalTok{ tweetiPhone }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{unnest\_tokens}\NormalTok{(}\AttributeTok{output =}\NormalTok{ word, }\AttributeTok{input =}\NormalTok{ text) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{anti\_join}\NormalTok{(stop\_words, }\AttributeTok{by=}\StringTok{"word"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{filter}\NormalTok{(word }\SpecialCharTok{!=} \StringTok{"https"}\NormalTok{ ) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{filter}\NormalTok{(word }\SpecialCharTok{!=} \StringTok{"t.co"}\NormalTok{ ) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{count}\NormalTok{(word, }\AttributeTok{sort =} \ConstantTok{TRUE}\NormalTok{)}
+
+\NormalTok{tweet\_iPhone }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{with}\NormalTok{(}\FunctionTok{wordcloud}\NormalTok{(}\AttributeTok{words =}\NormalTok{ word, }\AttributeTok{freq =}\NormalTok{ n, }\AttributeTok{max.words=}\DecValTok{50}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{ps6B_files/figure-latex/unnamed-chunk-6-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{head}\NormalTok{(tweet\_iPhone, }\DecValTok{50}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 50 x 2
+##    word                      n
+##    <chr>                 <int>
+##  1 trump2016               171
+##  2 makeamericagreatagain    95
+##  3 amp                      56
+##  4 hillary                  51
+##  5 america                  43
+##  6 join                     42
+##  7 clinton                  30
+##  8 crooked                  28
+##  9 people                   28
+## 10 americafirst             27
+## # ... with 40 more rows
+\end{verbatim}
+
+\newpage
+
+2b. Create a visualization that compares the top 10 \emph{bigrams}
+appearing in tweets by each source (that is, facet by source). After
+creating a dataset with one row per bigram, you should remove any rows
+that contain a stop word within the bigram.
+
+How do the top used bigrams compare between the two sources?
+
+\begin{quote}
+ANSWER:
+\end{quote}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{nrc0}\OtherTok{\textless{}{-}} \FunctionTok{get\_sentiments}\NormalTok{(}\StringTok{"nrc"}\NormalTok{)}
+
+\NormalTok{sentiments  }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"anger"}\NormalTok{, }\StringTok{"joy"}\NormalTok{, }\StringTok{"positive"}\NormalTok{, }\StringTok{"negative"}\NormalTok{) }
+
+
+\NormalTok{tweet\_ngrams }\OtherTok{\textless{}{-}}\NormalTok{ tweets2 }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{unnest\_tokens}\NormalTok{(}\AttributeTok{output =}\NormalTok{ word, }\AttributeTok{input =}\NormalTok{ text}
+\NormalTok{                , }\AttributeTok{token =} \StringTok{"ngrams"}\NormalTok{, }\AttributeTok{n =} \DecValTok{2}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+
+\FunctionTok{separate}\NormalTok{(word, }\AttributeTok{into =} \FunctionTok{c}\NormalTok{(}\StringTok{"one"}\NormalTok{, }\StringTok{"two"}\NormalTok{), }\AttributeTok{remove =} \ConstantTok{FALSE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning: Expected 2 pieces. Additional pieces discarded in 2030 rows [11, 12,
+## 27, 28, 35, 36, 44, 45, 113, 114, 115, 124, 125, 159, 160, 239, 240, 246, 247,
+## 254, ...].
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{tweet\_ngrams2 }\OtherTok{\textless{}{-}}\NormalTok{ tweet\_ngrams }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{anti\_join}\NormalTok{(stop\_words, }\AttributeTok{by =} \FunctionTok{c}\NormalTok{(}\StringTok{"one"} \OtherTok{=} \StringTok{"word"}\NormalTok{)) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{anti\_join}\NormalTok{(stop\_words, }\AttributeTok{by =} \FunctionTok{c}\NormalTok{(}\StringTok{"two"} \OtherTok{=} \StringTok{"word"}\NormalTok{)) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{filter}\NormalTok{(one }\SpecialCharTok{!=} \StringTok{"https"} \SpecialCharTok{\&}\NormalTok{ two }\SpecialCharTok{!=} \StringTok{"https"}\NormalTok{ ) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{filter}\NormalTok{(one }\SpecialCharTok{!=} \StringTok{"t.co"} \SpecialCharTok{\&}\NormalTok{ two }\SpecialCharTok{!=} \StringTok{"t.co"}\NormalTok{ ) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{group\_by}\NormalTok{(source) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{count}\NormalTok{(word, }\AttributeTok{sort =} \ConstantTok{TRUE}\NormalTok{)}
+
+\CommentTok{\#Creating the actual visualization by source}
+\NormalTok{tweet\_ngrams2 }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{slice}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\DecValTok{10}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =} \FunctionTok{reorder}\NormalTok{(word,n), }\AttributeTok{y =}\NormalTok{ n, }\AttributeTok{color =}\NormalTok{ word, }\AttributeTok{fill=}\NormalTok{word)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_col}\NormalTok{() }\SpecialCharTok{+} 
+  \FunctionTok{xlab}\NormalTok{(}\ConstantTok{NULL}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{coord\_flip}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{y =} \StringTok{"Number of instances"}
+\NormalTok{       , }\AttributeTok{title=}\StringTok{"The most common words in Trump\textquotesingle{}s tweets"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{guides}\NormalTok{(}\AttributeTok{color =} \StringTok{"none"}\NormalTok{, }\AttributeTok{fill =} \StringTok{"none"}\NormalTok{) }\SpecialCharTok{+} 
+  \FunctionTok{facet\_wrap}\NormalTok{(}\SpecialCharTok{\textasciitilde{}}\NormalTok{source, }\AttributeTok{scales =} \StringTok{"free"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{ps6B_files/figure-latex/unnamed-chunk-7-1.pdf}
+
+\newpage
+
+2c. Consider the sentiment. Compute the proportion of words among the
+tweets within each source classified as ``angry'' and the proportion of
+words classified as ``joy'' based on the NRC lexicon. How does the
+proportion of ``angry'' and ``joy'' words compare between the two
+sources? What about ``positive'' and ``negative'' words?
+
+\begin{quote}
+ANSWER:\\
+The proportion of anger for android users is 0.01523426 and for joy is
+0.01106640. The proportion of anger for iPhone users is 0.01780673 and
+for joy is 0.01281216. There is a higher proportion for both anger and
+joy sentiments in iPhone users.
+\end{quote}
+
+\begin{quote}
+The proportion of positive for android users is 0.03420523 and
+0.03262432 for negative. The proportion of positive for iPhone users is
+0.03604777 and 0.03192182 for negative. iPhone users had a higher
+proportions of positive, and the android users had a higher proportions
+for negative sentiments.
+\end{quote}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#Android sentiment}
+\NormalTok{Android\_Totalwords }\OtherTok{\textless{}{-}} \FunctionTok{sum}\NormalTok{(tweet\_Android}\SpecialCharTok{$}\NormalTok{n)}
+
+\NormalTok{Android\_sentiment }\OtherTok{\textless{}{-}} \FunctionTok{get\_sentiments}\NormalTok{(}\StringTok{"nrc"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{filter}\NormalTok{(sentiment }\SpecialCharTok{\%in\%} \FunctionTok{c}\NormalTok{(}\StringTok{"anger"}\NormalTok{, }\StringTok{"joy"}\NormalTok{, }\StringTok{"positive"}\NormalTok{, }\StringTok{"negative"}\NormalTok{)) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{inner\_join}\NormalTok{(tweet\_Android, }\AttributeTok{by =} \StringTok{"word"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{anti\_join}\NormalTok{(stop\_words, }\AttributeTok{by=}\FunctionTok{c}\NormalTok{(}\StringTok{"sentiment"} \OtherTok{=} \StringTok{"word"}\NormalTok{))}\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{group\_by}\NormalTok{(sentiment)}\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{summarise}\NormalTok{(}\AttributeTok{n=}\FunctionTok{n}\NormalTok{())}\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{proportions =}\NormalTok{ n}\SpecialCharTok{/}\NormalTok{Android\_Totalwords)}
+
+\NormalTok{Android\_sentiment}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 4 x 3
+##   sentiment     n proportions
+## * <chr>     <int>       <dbl>
+## 1 anger       106      0.0152
+## 2 joy          77      0.0111
+## 3 negative    227      0.0326
+## 4 positive    238      0.0342
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#iPhone sentiment}
+\NormalTok{iPhone\_Totalwords }\OtherTok{\textless{}{-}} \FunctionTok{sum}\NormalTok{(tweet\_iPhone}\SpecialCharTok{$}\NormalTok{n)}
+
+\NormalTok{iPhone\_sentiment }\OtherTok{\textless{}{-}} \FunctionTok{get\_sentiments}\NormalTok{(}\StringTok{"nrc"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{filter}\NormalTok{(sentiment }\SpecialCharTok{\%in\%} \FunctionTok{c}\NormalTok{(}\StringTok{"anger"}\NormalTok{, }\StringTok{"joy"}\NormalTok{, }\StringTok{"positive"}\NormalTok{, }\StringTok{"negative"}\NormalTok{)) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{inner\_join}\NormalTok{(tweet\_iPhone, }\AttributeTok{by =} \StringTok{"word"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{anti\_join}\NormalTok{(stop\_words, }\AttributeTok{by=}\FunctionTok{c}\NormalTok{(}\StringTok{"sentiment"} \OtherTok{=} \StringTok{"word"}\NormalTok{))}\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{group\_by}\NormalTok{(sentiment)}\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{summarise}\NormalTok{(}\AttributeTok{n=}\FunctionTok{n}\NormalTok{())}\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{proportions =}\NormalTok{ n}\SpecialCharTok{/}\NormalTok{iPhone\_Totalwords)}
+
+\NormalTok{iPhone\_sentiment}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 4 x 3
+##   sentiment     n proportions
+## * <chr>     <int>       <dbl>
+## 1 anger        82      0.0178
+## 2 joy          59      0.0128
+## 3 negative    147      0.0319
+## 4 positive    166      0.0360
+\end{verbatim}
+
+\newpage
+
+2d. Lastly, based on your responses above, do you think there is
+evidence to support Robinson's claim that Trump only writes the
+(angrier) Android half of the tweets from realDonaldTrump? In 2-4
+sentences, please explain.
+
+\begin{quote}
+ANSWER: The number of angry tweets from android is 106, and the one from
+iPhone was 82. He wrote more of the angrier tweets from android.
+\end{quote}
+
+\end{document}
