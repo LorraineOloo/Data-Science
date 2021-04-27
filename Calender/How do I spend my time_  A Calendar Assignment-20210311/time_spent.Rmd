@@ -1,16 +1,20 @@
 ---
-title: "Calender Assignment"
+title: "TIME I SPEND ON COURSE-WORK AND SOCIAL-MEDIA"
 author: "Lorraine Oloo"
-date: "3/16/2021"
+date: "Due Friday, March 19 by 5:00 PM EST"
 output:
   pdf_document: default
   html_document: default
 ---
-#Data wrangling
+
+# How do I spend my time?
+
+## Data wrangling
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
+
 
 ```{r}
 library(tidyverse)
@@ -18,74 +22,62 @@ library(lubridate)
 library(ical)
 library(readxl)
 library(vctrs)
-library(dplyr, warn.conflicts = FALSE)
+library(tidyr)
 ```
 
 ```{r}
 #calling the data set and setting start time an end time for my times
-my_calendar0 <- ical_parse_df("C:/Users/Lorraine/Dropbox/Data Science/Data-Science/Calender/loloo23@amherst.edu.ical/Data Science_c_qek3ugrgkuhaij3ad2ltmknjgs@group.calendar.google.com.ics") %>%
+my_calendar0 <- 
+ical_parse_df("C:/Users/Lorraine/Dropbox/Data Science/Data-Science/Calender/loloo23@amherst.edu.ical/Data Science_c_qek3ugrgkuhaij3ad2ltmknjgs@group.calendar.google.com.ics") %>%
+  
   mutate(start_datetime = with_tz(start, tzone = "America/New_York")
     , end_datetime = with_tz(end, tzone = "America/New_York")
     , length_hour = end_datetime - start_datetime
     , date = floor_date(start_datetime, unit = "day"))
 
+#arrange data in order of time
 my_calendar1 <- arrange(my_calendar0, date)
 ```
 
-```{r}
-#the names in my calender
-names(my_calendar1)
-#shows variables in a specific column
-unique(my_calendar1$summary)
-```
 
-
-```{r}
-#combining the variables in sunmmary
-my_calendar1 <- mutate(my_calendar1, summary_correct = str_trim(summary))
-unique(my_calendar1$summary_correct)
+```{r, results='hide'}
+#combining the variables in summmary
+my_calendar1 <- mutate(
+  my_calendar1, summary_correct = str_trim(summary))
 
 #creating day of the week
 my_calendar1 <- mutate(my_calendar1, day_of_week = weekdays(date))
 ```
 
-
-```{r}
+```{r, results='hide'}
 #Distinguishing between assignment and reading and the specific courses
 
-#Reading
+#Study type
 my_calendar1 <- my_calendar1 %>%
-  mutate(study0 = case_when(str_detect(summary_correct, "R") ~ "Reading"
-                            ,TRUE ~ summary_correct))
-#Assignment
+  mutate(study = case_when(str_detect(summary_correct, "R") ~ "Reading",
+                            str_detect(summary_correct, "A") ~ "Assignment",
+                            TRUE ~ summary_correct))
+
+#Renaming Courses
 my_calendar1 <- my_calendar1 %>%
-  mutate(study1 = case_when(str_detect(study0, "A") ~ "Assignment"
-                            ,TRUE ~ study0))
-#Data Science
-my_calendar1 <- my_calendar1 %>%
-  mutate(course = case_when(str_detect(summary_correct, "D") ~ "Data Science"
-                            ,TRUE ~ summary_correct))
-#Econometrics
-my_calendar1 <- my_calendar1 %>%
-  mutate(course1 = case_when(str_detect(course, "E") ~ "Econometrics"
-                            ,TRUE ~ course))
-#Money and Banking
-my_calendar1 <- my_calendar1 %>%
-  mutate(course2 = case_when(str_detect(course1, "M") ~ "Money and Banking"
-                            ,TRUE ~ course1))
+  mutate(course = case_when(str_detect(summary_correct, "D") ~ "Data Science",
+                            str_detect(summary_correct,"E") ~ "Econometrics",
+                            str_detect(summary_correct,"M") ~ "Money&Banking",
+                            TRUE ~ summary_correct))
+
 ```
 
-```{r}
+```{r, results='hide'}
 #Weekday or weekend
 my_calendar1 <- my_calendar1 %>% 
-  mutate(type_day = ifelse(day_of_week %in% c("Saturday", "Sunday"), "Weekend", "Weekday"))
+  mutate(type_day = ifelse(day_of_week %in% c("Saturday", "Sunday"), 
+                           "Weekend", "Weekday"))
 ```
 
 ```{r}
 #selecting variables I'll be working with
 my_calendar2 <- my_calendar1 %>%
-  select(summary_correct, date, day_of_week, type_day,course2, study1, length_hour)
-
+  select(summary_correct, date, day_of_week, type_day,course, study, length_hour)
 ```
 
 ```{r}
@@ -97,64 +89,10 @@ social_media1 <- filter(social_media1, summary_correct != "PU")
 social_media1 <- mutate(social_media1, day_of_week = weekdays(date))
 #Weekday or weekend
 social_media1 <- social_media1 %>% 
-  mutate(type_day = ifelse(day_of_week %in% c("Saturday", "Sunday"), "Weekend", "Weekday"))
+  mutate(type_day = ifelse(day_of_week %in% c("Saturday", "Sunday"),
+                           "Weekend", "Weekday"))
 ```
 
-
-(http://www.sthda.com/english/wiki/ggplot2-barplots-quick-start-guide-r-software-and-data-visualization#bar-plot-with-labels) (to find the summary of my graphs)
-
-###Graphs for my studies
-```{r}
-#A bar graph to show how all the time I spent studying was distributed between my three courses, in reading and doing assignment
-
-# Stacked barplot with multiple groups
-ggplot(data=my_calendar2, aes(x=course2, y=length_hour, fill=study1)) +  geom_bar(stat="identity") + labs(title = "How my time is split between courses",y="number of minutes", x="Course", fill="Study type")
-
-```
-
-
-
-```{r}
-#Boxplot to show the distribution of time spent in courses
-ggplot(data=my_calendar2, aes(x=course2, y=length_hour, fill=study1)) + geom_boxplot() + labs(title = "How my time is split between courses",y="number of minutes", x="Course", fill="Study type")
-```
-
-
-```{r}
-#weekday and weekend boxplot
-ggplot(data=my_calendar2, aes(x=type_day, y=length_hour, fill=study1)) +  geom_boxplot() + labs(title = "How I spend time studying between \n weekdays and weekend",y="number of minutes", x="type of day")
-```
-
-```{r}
-#social media
-ggplot(data=social_media1, aes(x=summary_correct, y=length_hour, fill=summary_correct)) +  geom_bar(stat="identity") + labs(title = "How my time is split between \n Instagram and WhatsApp",y="number of minutes", x="Social Media Platform") + theme_minimal() + scale_fill_discrete(name = "Social Media", labels = c("Instagram", "WhatsApp"))
-```
-
-
-```{r}
-#Boxplot to show the distribution of social media usage
-ggplot(data=social_media1, aes(x=summary_correct, y=length_hour, fill=summary_correct)) + geom_boxplot() + labs(title = "How my time is split between \n Instagram and WhatsApp",y="number of minutes", x="Social Media Platform") + theme_minimal() + scale_fill_discrete(name = "Social Media", labels = c("Instagram", "WhatsApp"))
-```
-
-
-```{r}
-#weekday and weekend boxplot
-ggplot(data=social_media1, aes(x=type_day, y=length_hour, fill=summary_correct)) +  geom_boxplot() + labs(title = "How I spend time studying between \n weekdays and weekend",y="number of minutes", x="type of day") + scale_fill_discrete(name = "Social Media", labels = c("Instagram", "WhatsApp"))
-```
-
-
-```{r}
-social_media1 %>%
-  group_by(type_day,summary_correct)%>%
-  summarize(avg_min = mean(length_hour))
-```
-
-```{r}
-names(social_media1)
-```
-
-
-##Time spent on studying versus on social media 
 ```{r}
 #combine data
 my_calendar3 <- my_calendar2 %>% 
@@ -164,14 +102,130 @@ social_media2 <- social_media1 %>%
   mutate(length_hour= as.numeric(length_hour))%>%
   select(summary_correct, length_hour, day_of_week, type_day)
 
-my_calendar3 <- select(my_calendar3, c(summary_correct, length_hour, day_of_week, type_day))
+my_calendar3 <- select(my_calendar3, 
+                       c(summary_correct, length_hour, day_of_week, type_day))
 
 total <- bind_rows(social_media2, my_calendar3)
 ```
 
-```{r}
+\newpage
 
+## Data collection process, question of interests, and variables
+
+On a typical day, other than attending my classes, I spend most of my time doing assignments, reading and perusing through social media.
+
+I was interested in:     
+1. knowing how much time, on average, I spend doing my assignments and readings per course and the two social media apps I frequently use.    
+2. Difference in time spent on these activities on the weekdays and weekends.      
+   
+I collected the data on time spent on my courses via Google calender after the activity was done.    
+I collected data on time spent on my frequently used apps by manually entering the minutes spent on this activities into an Excel spreed-sheet from my phone usage database.        
+The time frame was between 28/02/2021 and 15/03/2021
+
+The variables in my data-base are:   
+A-DS - Doing Data-Science assignment       
+A-EC - Doing Econometrics assignment          
+A-MB - Doing Money and Banking assignment    
+IG   - Instagram     
+WA   - WhatsApp
+
+# Graphs for my studies
+
+## Data visualization 1
+
+The bar graph shows how much time in minutes I spend on average on each subject per day over the course of the 15 days.
+
+```{r , results='hide'}
+#Table for mean minutes per course per day
+calender3 <-  my_calendar2%>%
+  group_by(day_of_week,course)%>%
+  summarise(avg_min = mean(length_hour))
+  
+
+calender3
 ```
+```{r}
+#Bargraph showing the different time per subject per day
+p<-ggplot(data=calender3, 
+          aes(x=day_of_week, y=avg_min, fill = course)) +
+          geom_bar(stat="identity", position=position_dodge())+
+          theme_minimal() + 
+          labs(title = "Avarage time spent on course per day",
+          y="time(minutes)", 
+          x="Day of the week")
+
+p + scale_fill_manual(values=c('#999999','#E69F00','#999F00'))+ scale_x_discrete(limits=c("Sunday", "Monday", 
+                          "Tuesday","Wednesday",
+                          "Thursday", "Friday", 
+                          "Saturday"))
+```
+
+\newpage
+# Data visualization 2    
+The line graph below shows the trend of my usage of social media between 28th February 2021 and 15th March 2021. 
+
+```{r}
+social_media2<- social_media1%>% #rename variable summary correct
+  rename(socialmedia = summary_correct)
+  
+#Line graph
+p<-ggplot(social_media2, aes(x=date, 
+                             y=length_hour, 
+                             linetype=socialmedia)) + 
+  labs(title = "How my time is split between Instagram
+       \n and WhatsApp per day",
+       y="time(minutes)", 
+       x="Date") +
+   geom_line(aes(color=socialmedia))+
+  geom_point(aes(color=socialmedia))  
+p
+```
+
+
+\newpage
+# Summary table of time spent on my activities
+The table shows the average time in minutes spent in each activity, and groups the activities by weekday and weekend.
+
+```{r}
+#working with combined dataset
+total1 <- total %>% #rename variable
+  rename( activity = summary_correct)
+#Table
+total2 <- total1 %>%
+  group_by(type_day,activity)%>%
+  summarise(avg_min = mean(length_hour))%>%
+  spread(key=type_day, value=avg_min,fill = 1)
+total2
+```
+
+\newpage
+# Summary of my findings:
+1. I spend more time on average studying Data Science than any other subject in the 15 days. 
+I spent a total of 1928 minutes doing Data Science reading and assignments, an average of 2.1 hours per day. I spent a total of 270 minutes, an average of 18 minutes per day in Money and Banking course. For Econometrics, I spent a total of 717 minutes for assignments, an average of 47.8 minutes per day.   
+The large amount of time spent in data science could be explained by the amount of time spent debugging the r-codes.
+
+2. In general, I spent more time on WhatsApp (741 minutes) than on Instagram(670) in the 15 days. That is an average 44.6 minutes per day on Instagram and 49.4 minutes per day on WhatsApp.   
+I initially thought that the time I spend between the two apps would be large enough to distinguish, but the difference wasn't large enough, and would require hypothesis testing to confirm if the difference was indeed statistically significant.     
+      
+3. I expected the amount of time spent on my courses to be less during the weekends than on weekdays. The results were consistent with this assumption. The unusually high amount of time spent on Data Science during the weekend could be explained by the assignment that is often due on Monday. 
+
+4. The amount of time I spent on social media on a given day decreased after my first data entry session around 6th of March, which could be explained by my change in behavior because of being recorded. 
+
+
+
+\newpage
+# Reflection   
+In my data analysis, figuring out the best graphs to represent my findings was challenging. I ended up having to omit some of the variables I had collected to prevent crowding my graphs and making them ineffectual.           
+The challenges I faced in the data collection process were accurately capturing the time I spent on my courses and the behavioral change in my social media usage. When collecting data for the time I spent in my courses outside class, I often took random small breaks that were hard to account for. This resulted in some activities appearing to take more time than they actually did. For my social media usage, I unconsciously changed my behavior since I knew it was being tracked. I probably would have spent more time on social media than what I recorded because of the tracking.     
+
+Being both the subject of the experiment and the one who analyses the data, my bias affected the data collection process. It is better to not be the subject if I am the one analyzing the data. I should also be more aware of other people’s changes due to being recorded, and factor that into my analysis.     
+
+To answer my question of how much time I spend on social media apps, I should collect data over a long period of time, probably over a year. This will make it easier to notice any change in behavior over a longer period of time and the different events that cause the change. Since data will be collected over a long period of time, behavior change due to recording of my time spent on social media will be randomly distributed, making it less of a concern when analyzing data. The data will be manually entered into a spreadsheet from my phone, and I anticipate that this will be time-consuming and tiring.   
+To answer how much time I spend in my courses outside of class, collecting data at least worth half of the semester will be able to yield more accurate results and show the trends over the days more clearly. The data collection process will be less time-consuming since it is adding time spent in my google calendar. However, there might be a risk of forgetting to do data entry on the calendar.    
+
+As someone who provides data, I expect the analysis to be done without bias and my privacy to not be compromised. The entity collecting my data should be transparent and honest about the usage of my data. Under no circumstance should my data be used to reinforce harmful stereotypes.   
+ 
+As someone who analyzes data, I have an ethical responsibility to clearly inform the participants what their data will be used for so that they can make an informed decision when giving out consent. The data collected should always be treated with privacy, and not shared unethically to other people for a different purpose than the intended one. The identity of the participants should never be shared without their knowledge and consent. During analysis, I should never fabricate available data to satisfy a specific objective. Instead, my conclusions should be derived from the result of the analysis done. I also have a moral obligation to ensure that my analysis will not be misused for harmful purposes.
 
 
 

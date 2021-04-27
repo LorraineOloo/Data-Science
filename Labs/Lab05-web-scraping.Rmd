@@ -85,7 +85,7 @@ Can you think of a way to create a new variable which contains the URL to the pa
 
 ```{r}
 poem_urls <- poem_table_all %>%
- mutate(first_line = str_replace_all(first_line_often_used_as_title, " ", "_"), url = paste0("https://en.wikipedia.org/wiki/", first_line))
+ mutate(first_line = str_replace_all(first_line_often_used_as_title, " ", "_"), url = paste0("https://en.wikisource.org/wiki/", first_line))
 ```
 
 *This is a good place to pause, commit changes with the commit message "Added answer for scraping a table", and push.*
@@ -96,7 +96,19 @@ poem_urls <- poem_table_all %>%
 Web scrape the text for the first poem in the table, [A Bee his burnished carriage](https://en.wikisource.org/wiki/A_Bee_his_burnished_Carriage) following the same code as used to scrape the text for September's Baccalaureate.
 
 ```{r}
+# identify webpage URL you want to scrape
+Bee_url <- "https://en.wikisource.org/wiki/A_Bee_his_burnished_Carriage"
 
+# scrape text from the page
+# note that the html nodes argument is "div p" instead of "table"
+# and the addition of html_text
+Bee_text <- (Bee_url %>%               
+  read_html() %>%
+  html_nodes("div p") %>%   
+  html_text)[1]
+
+Bee_text
+cat(Bee_text)
 ```
 
 *This is a good place to pause, commit changes with the commit message "Added answer for scraping text", and push.*
@@ -114,7 +126,7 @@ You should develop and test your code on a small subset of pages (e.g., the firs
 # all the poems
 # update "first_line" with the name of the variable within that dataset that 
 # contains the poems' first line / name
-all_poems <- data.frame(name = poem_table_all$first_line
+all_poems <- data.frame(name = poem_urls$first_line
                         , text = ""
                         , stringsAsFactors = FALSE)
 
@@ -122,7 +134,7 @@ for (i in 1:5){
   
   # identify url
   # UPDATE "datasetname" and "variablename" appropriately
-  url <- datasetname$variablename[i]
+  url <- poem_urls$first_line[i]
 
   # some of the URLs won't work, so we need to place the scraping
   # code within the "tryCatch" function which tells R to try to do this,

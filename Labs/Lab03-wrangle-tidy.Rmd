@@ -60,11 +60,12 @@ First, let's read in the files containing the healthcare coverage and healthcare
 *Getting an error trying to read in the data?  Watch the video "Lab03-filepaths" (posted on Moodle) for help troubleshooting.*
 
 ```{r}
-coverage <- read_csv("data/healthcare_coverage.txt")
-spending <- read_csv("data/healthcare_spending.txt")
+coverage <- read_csv("C:/Users/Lorraine/Dropbox/Data Science/Data-Science/data/healthcare_coverage.txt")
+spending <- read_csv("C:/Users/Lorraine/Dropbox/Data Science/Data-Science/data/healthcare_spending.txt")
+
 ```
 
-Since our goal is to get sense of the health expenditure, including health care coverage and health care spending, across states, it would be nice add some information about each state. Namely, the state abbreviation and state region (i.e. north, south, etc).
+Since our goal is to get sense of the health expenditure, including health care coverage and health care spending, across states, it would be nice to add some information about each state. Namely, the state abbreviation and state region (i.e. north, south, etc).
 
 For this we use the `state` dataset in the `datasets` R package.  Since we already loaded that package, we can refer directly to the `state` dataset even though we don't see it in our Environment pane in the upper right corner.  However, I like to be able to see any objects I'm working with in my Environment, so run the following code:
 
@@ -74,6 +75,8 @@ data(state)
 
 # creates a data frame with state info
 state_info <- data.frame(Location = state.name, Abbrev = state.abb, Region = state.region)
+
+state_info
 ```
 
 
@@ -83,16 +86,29 @@ Get acquainted with the `spending` and `coverage` datasets.  What years are cove
 
 If we're interested in the relationship between spending and coverage, we'll only be able to use observations that have information on both.  That is, we won't be using data from years for which we only have spending information or only have coverage information.  Remove any variables we won't be using from `spending` and `coverage`.  (Hint: the `starts_with` function could help with efficiency here: https://tidyselect.r-lib.org/reference/starts_with.html)
 
-> RESPONSE: 
+> RESPONSE:
+Using the names function, the years in spending are from 1991 to 2014, and that for coverage is between 2013 to 2016. 
 
 ```{r}
+#names(spending)
+#names(coverage)
+
+spending2<- spending%>%
+  select(Location, starts_with("2013")| starts_with("2014"))
+
+coverage2<- coverage%>%
+  select(Location, starts_with("2013")| starts_with("2014"))
 
 ```
 
 Note that there are observations both for the US as a whole and DC.  Remove these observations from both datasets.
 
 ```{r}
+spending3<- spending2%>%
+filter(Location != "United States" & Location != "District of Columbia")
 
+coverage3<- coverage2%>%
+filter(Location != "United States" & Location != "District of Columbia")
 ```
 
 *This is a good place to pause, commit changes with the commit message "Added answer for Warm-up", and push.*

@@ -64,7 +64,10 @@ Hint: see examples in Section 4.1 for subsetting datasets and creating new varia
 ```{r}
 select(flights_joined2 <- flights_joined %>% 
   
-  mutate(distance_km = distance*1.6),name, flight, arr_delay,distance_km) 
+  mutate(distance_km = distance*1.6) %>%
+  
+  filter(distance_km<500),name, flight,arr_delay,distance_km)    
+  
   
 
 

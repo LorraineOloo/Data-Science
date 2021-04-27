@@ -12,7 +12,7 @@ Series B homework assignments are designed to help you further ingest and practi
 
 Steps to proceed:
 
-\begin{_}
+\begin{enumerate}
 \item In RStudio, go to File > Open Project, navigate to the folder with the course-content repo, select the course-content project (course-content.Rproj), and click "Open" 
 \item Pull the course-content repo (e.g. using the blue-ish down arrow in the Git tab in upper right window)
 \item Copy ps2B.Rmd from the course repo to your repo (see page 6 of the GitHub Classroom Guide for Stat231 if needed)
@@ -22,7 +22,7 @@ Steps to proceed:
 \item Add in your responses, committing and pushing to YOUR repo in appropriate places along the way
 \item Run "Knit PDF" 
 \item Upload the pdf to Gradescope.  Don't forget to select which of your pages are associated with each problem.  \textit{You will not get credit for work on unassigned pages (e.g., if you only selected the first page but your solution spans two pages, you would lose points for any part on the second page that the grader can't see).} 
-\end{_}
+\end{enumerate}
 
 ```{r, setup, include=FALSE}
 library(mdsr)   
@@ -39,7 +39,7 @@ knitr::opts_chunk$set(
 
 # If you discussed this assignment with any of your peers, please list who here:
 
-> ANSWER:
+> ANSWER: Lovemore & Teddy
 
 \newpage
 # MDSR Exercise 4.14 (modified)
@@ -60,7 +60,7 @@ Pitching1 <- select(Pitching, playerID, W, SO)
 
 Pitching2<- aggregate(cbind(W, SO) ~ playerID, data = Pitching1, sum)
 
-Pitching3<- filter(Pitching2, W > 300 & SO > 3000)
+Pitching3<- filter(Pitching2, W >= 300 & SO >= 3000)
 Pitching3
  
 ```
@@ -102,7 +102,11 @@ Violation2 <-Violations1 %>%
   group_by(zipcode,dba) %>%
   summarise(num_inspections=n(), med_score=median(score))
 
-g <- ggplot(data = Violation2, aes(y = med_score, x = num_inspections)) + ggtitle("Number of inspections vs the median score") + ylab("median score") + xlab("no. of inspections")
+g <- ggplot(data = Violation2, aes(y = med_score, x = num_inspections)) + 
+  ggtitle("Number of inspections vs the median score")+
+  ylab("median score") +
+  xlab("no. of inspections")
+
 g + geom_point(size = 1)
 
 ```
@@ -116,7 +120,6 @@ b.  In your visualization in part (a), there should be at least a few points tha
 
 ```{r}
 #filter(Violation2, num_inspections>105)
-
 context <- tribble(
   ~num_inspections, ~med_score, ~label,
   90, 30, "Starbucks")
@@ -163,7 +166,6 @@ gather("statistics", "value", -c("grp", "sex")) %>%
 unite(sex.statistics, c("sex", "statistics"), sep = ".") %>%
 arrange(sex.statistics) %>%
 spread(key = "sex.statistics", value = "value")
-
 ```
 
 

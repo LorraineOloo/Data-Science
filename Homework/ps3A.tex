@@ -1,0 +1,919 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{lmodern}
+\usepackage{ifxetex,ifluatex}
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\hypersetup{
+  pdftitle={STAT 231: Problem Set 3A},
+  pdfauthor={LORRAINE OLOO},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+\urlstyle{same} % disable monospaced font for URLs
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\ifluatex
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+
+\title{STAT 231: Problem Set 3A}
+\author{LORRAINE OLOO}
+\date{due by 5 PM on Monday, March 8}
+
+\begin{document}
+\maketitle
+
+In order to most effectively digest the Shiny video tutorial from
+RStudio -- and the new R commands it presents -- this series A homework
+assignment is designed to encourage you to watch the tutorial
+``actively'' and in line with the textbook's Prop Tip of page 33:
+
+``\textbf{Pro Tip}: If you want to learn how to use a particular
+command, we highly recommend running the example code on your own''
+
+\emph{Series A assignments are intended to be completed individually.}
+The problems should be straightforward based on the video tutorial, but
+if you have any questions, feel free to ask me!
+
+Steps to proceed:
+
+\begin{enumerate}
+\item In RStudio, go to File > Open Project, navigate to the folder with the course-content repo, select the course-content project (course-content.Rproj), and click "Open" 
+\item Pull the course-content repo (e.g. using the blue-ish down arrow in the Git tab in upper right window)
+\item Copy ps3A.Rmd from the course repo to your repo (see page 6 of the GitHub Classroom Guide for Stat231 if needed)
+\item Close the course-content repo project in RStudio
+\item Open YOUR repo project in RStudio
+\item In the ps3A.Rmd file in YOUR repo, replace "YOUR NAME HERE" with your name
+\item Add in your responses, committing and pushing to YOUR repo in appropriate places along the way
+\item Run "Knit PDF" 
+\item Upload the pdf to Gradescope.  Don't forget to select which of your pages are associated with each problem.  \textit{You will not get credit for work on unassigned pages (e.g., if you only selected the first page but your solution spans two pages, you would lose points for any part on the second page that the grader can't see).} 
+\end{enumerate}
+
+\newpage
+
+\hypertarget{interactive-web-apps-with-shiny}{%
+\section{Interactive Web Apps with
+Shiny}\label{interactive-web-apps-with-shiny}}
+
+Chapter 11 in MDSR explores a few different alternatives for making more
+complex -- and, in particular, dynamic -- data graphics. In this course,
+we will focus on building interactive web apps with Shiny (Section
+11.3). The textbook reading is optional this week; if you want to get a
+sense of other ways to create dynamic visualizations in R, you can read
+through the chapter.
+
+This week, instead of coding along with the code in the textbook
+chapter, you will code along with the code in a Shiny video tutorial
+created by RStudio.
+
+\hypertarget{set-up-and-initial-exploration}{%
+\subsection{1. Set-up and initial
+exploration}\label{set-up-and-initial-exploration}}
+
+If you're working in R/RStudio on your own machine, you may need to
+install the \texttt{shiny} package (\texttt{install.packages("shiny")}).
+To ensure you successfully installed Shiny, try running one of the demo
+apps.
+
+Then, go to \href{https://shiny.rstudio.com/gallery/}{the Shiny gallery}
+to explore various Shiny apps and get a sense of the (seemingly
+endlesss) possibilities for a Shiny app.
+
+You do not have to write anything here. Just explore! Be curious!
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# run some examples to ensure shiny package is successfully installed}
+\FunctionTok{runExample}\NormalTok{(}\StringTok{"01\_hello"}\NormalTok{) }
+\FunctionTok{runExample}\NormalTok{(}\StringTok{"06\_tabsets"}\NormalTok{) }
+
+\CommentTok{\# to see what other examples are available}
+\FunctionTok{runExample}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\newpage
+
+\hypertarget{shiny-tutorial}{%
+\subsection{2. Shiny tutorial}\label{shiny-tutorial}}
+
+Go to: \url{https://shiny.rstudio.com/tutorial/} and watch the complete
+(except for certain chapters specified below) tutorial
+(\textasciitilde2.5 hours).
+
+I've included the example code in the video tutorial below. Each new
+code chunk is a different .R file. There is a lot of code here! Don't be
+frightened. I don't expect you to understand everything at once. But I
+hope that you run some of the example code along with the video (e.g.,
+pause the video, run the app, update the app in some way -- it helps to
+be curious: what happens if I change this to that? Experiment with the
+code.). I also intend for this to be a resource you could go back to
+when designing your own app (e.g., you want to change the layout of your
+app to use a navigation bar menu, but don't remember how -- you can
+start by following the bare-bones template from the
+\texttt{09-navbarMenu.R} code chunk below).
+
+The full code and slides from the video are also available here:
+\url{https://github.com/rstudio-education/shiny.rstudio.com-tutorial}
+
+\hypertarget{a.}{%
+\subsubsection{a.}\label{a.}}
+
+As you watch, or after watching, the tutorial, write down at least two
+questions you have about Shiny applications.
+
+\begin{quote}
+ANSWER:\\
+1.If I make internal changes in RStudio after publishing it, does Shiny
+app update automatically in the server?\\
+2.It wasn't very clear to me how I can combine a CSS file and a Shiny
+app.\\
+3.I couldn't figure out how to use fluidrow and default layout together.
+\end{quote}
+
+\hypertarget{b.}{%
+\subsubsection{b.}\label{b.}}
+
+After watching the tutorial, create a new folder called ``ps3a\_shiny''
+within your ``homeworks'' folder in your GitHub repository. Open a new R
+file (\textbf{not} R Markdown) by going to File \textgreater{} New File
+\textgreater{} R Script. (In a .R file, you can only write R code. Any
+comments need to have a hashtag (\#) in front of them.) Save the file as
+\texttt{app.R} within the ``ps3a\_shiny'' folder. Then,
+
+\begin{itemize}
+\tightlist
+\item
+  copy the code from the \texttt{02-two-outputs.R} file (in the
+  \texttt{two-outputs} code chunk below)
+\item
+  add a \texttt{textInput} widget that allows the user to change the
+  title of the histogram (following code in \texttt{01-two-inputs.R}).
+  Update the code in the server() function appropriately. Run the app to
+  make sure it works as you expect.
+\item
+  update the layout of the app to use a \texttt{navlistPanel} structure
+  (following the code in \texttt{06-navlist.R}). Hint: put
+  \texttt{navlistPanel} around the output objects only.
+\end{itemize}
+
+Make sure the app runs successfully, then save your changes in the app.R
+file, and push app.R to your GitHub repo. You do not need to write
+anything here. I will check your app in your GitHub repo. If you get
+stuck, email me or the TA!
+
+\newpage
+
+\hypertarget{part-1.-how-to-build-a-shiny-app-ch.-1-6}{%
+\subsubsection{Part 1. How to build a Shiny app
+(ch.~1-6)}\label{part-1.-how-to-build-a-shiny-app-ch.-1-6}}
+
+Note: You do \emph{NOT} need to publish your app with shinyapps.io for
+this problem set. We will use class time this week to publish an app.
+Feel free to \emph{skip over} ch.~7-9 in part 1 of the video tutorial.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# 01{-}template.R}
+
+\FunctionTok{library}\NormalTok{(shiny)}
+\NormalTok{ui }\OtherTok{\textless{}{-}} \FunctionTok{fluidPage}\NormalTok{()}
+
+\NormalTok{server }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(input, output) \{\}}
+
+\FunctionTok{shinyApp}\NormalTok{(}\AttributeTok{ui =}\NormalTok{ ui, }\AttributeTok{server =}\NormalTok{ server)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#02{-}hist{-}app.R}
+
+\FunctionTok{library}\NormalTok{(shiny)}
+
+\NormalTok{ui }\OtherTok{\textless{}{-}} \FunctionTok{fluidPage}\NormalTok{(}
+  \FunctionTok{sliderInput}\NormalTok{(}\AttributeTok{inputId =} \StringTok{"num"}\NormalTok{, }
+    \AttributeTok{label =} \StringTok{"Choose a number"}\NormalTok{, }
+    \AttributeTok{value =} \DecValTok{25}\NormalTok{, }\AttributeTok{min =} \DecValTok{1}\NormalTok{, }\AttributeTok{max =} \DecValTok{100}\NormalTok{),}
+  \FunctionTok{plotOutput}\NormalTok{(}\StringTok{"hist"}\NormalTok{)}
+\NormalTok{)}
+
+\NormalTok{server }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(input, output) \{}
+\NormalTok{  output}\SpecialCharTok{$}\NormalTok{hist }\OtherTok{\textless{}{-}} \FunctionTok{renderPlot}\NormalTok{(\{}
+    \FunctionTok{hist}\NormalTok{(}\FunctionTok{rnorm}\NormalTok{(input}\SpecialCharTok{$}\NormalTok{num))}
+\NormalTok{  \})}
+\NormalTok{\}}
+
+\FunctionTok{shinyApp}\NormalTok{(}\AttributeTok{ui =}\NormalTok{ ui, }\AttributeTok{server =}\NormalTok{ server)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# app.R}
+\CommentTok{\# 01{-}kmeans{-}app}
+
+\FunctionTok{palette}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\StringTok{"\#E41A1C"}\NormalTok{, }\StringTok{"\#377EB8"}\NormalTok{, }\StringTok{"\#4DAF4A"}\NormalTok{, }\StringTok{"\#984EA3"}\NormalTok{,}
+  \StringTok{"\#FF7F00"}\NormalTok{, }\StringTok{"\#FFFF33"}\NormalTok{, }\StringTok{"\#A65628"}\NormalTok{, }\StringTok{"\#F781BF"}\NormalTok{, }\StringTok{"\#999999"}\NormalTok{))}
+
+\FunctionTok{library}\NormalTok{(shiny)}
+
+\NormalTok{ui }\OtherTok{\textless{}{-}} \FunctionTok{fluidPage}\NormalTok{(}
+  \FunctionTok{headerPanel}\NormalTok{(}\StringTok{\textquotesingle{}Iris k{-}means clustering\textquotesingle{}}\NormalTok{),}
+  \FunctionTok{sidebarPanel}\NormalTok{(}
+    \FunctionTok{selectInput}\NormalTok{(}\StringTok{\textquotesingle{}xcol\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}X Variable\textquotesingle{}}\NormalTok{, }\FunctionTok{names}\NormalTok{(iris)),}
+    \FunctionTok{selectInput}\NormalTok{(}\StringTok{\textquotesingle{}ycol\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}Y Variable\textquotesingle{}}\NormalTok{, }\FunctionTok{names}\NormalTok{(iris),}
+      \AttributeTok{selected =} \FunctionTok{names}\NormalTok{(iris)[[}\DecValTok{2}\NormalTok{]]),}
+    \FunctionTok{numericInput}\NormalTok{(}\StringTok{\textquotesingle{}clusters\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}Cluster count\textquotesingle{}}\NormalTok{, }\DecValTok{3}\NormalTok{,}
+      \AttributeTok{min =} \DecValTok{1}\NormalTok{, }\AttributeTok{max =} \DecValTok{9}\NormalTok{)}
+\NormalTok{  ),}
+  \FunctionTok{mainPanel}\NormalTok{(}
+    \FunctionTok{plotOutput}\NormalTok{(}\StringTok{\textquotesingle{}plot1\textquotesingle{}}\NormalTok{)}
+\NormalTok{  )}
+\NormalTok{)}
+
+\NormalTok{server }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(input, output) \{}
+
+\NormalTok{  selectedData }\OtherTok{\textless{}{-}} \FunctionTok{reactive}\NormalTok{(\{}
+\NormalTok{    iris[, }\FunctionTok{c}\NormalTok{(input}\SpecialCharTok{$}\NormalTok{xcol, input}\SpecialCharTok{$}\NormalTok{ycol)]}
+\NormalTok{  \})}
+
+\NormalTok{  clusters }\OtherTok{\textless{}{-}} \FunctionTok{reactive}\NormalTok{(\{}
+    \FunctionTok{kmeans}\NormalTok{(}\FunctionTok{selectedData}\NormalTok{(), input}\SpecialCharTok{$}\NormalTok{clusters)}
+\NormalTok{  \})}
+
+\NormalTok{  output}\SpecialCharTok{$}\NormalTok{plot1 }\OtherTok{\textless{}{-}} \FunctionTok{renderPlot}\NormalTok{(\{}
+    \FunctionTok{par}\NormalTok{(}\AttributeTok{mar =} \FunctionTok{c}\NormalTok{(}\FloatTok{5.1}\NormalTok{, }\FloatTok{4.1}\NormalTok{, }\DecValTok{0}\NormalTok{, }\DecValTok{1}\NormalTok{))}
+    \FunctionTok{plot}\NormalTok{(}\FunctionTok{selectedData}\NormalTok{(),}
+         \AttributeTok{col =} \FunctionTok{clusters}\NormalTok{()}\SpecialCharTok{$}\NormalTok{cluster,}
+         \AttributeTok{pch =} \DecValTok{20}\NormalTok{, }\AttributeTok{cex =} \DecValTok{3}\NormalTok{)}
+    \FunctionTok{points}\NormalTok{(}\FunctionTok{clusters}\NormalTok{()}\SpecialCharTok{$}\NormalTok{centers, }\AttributeTok{pch =} \DecValTok{4}\NormalTok{, }\AttributeTok{cex =} \DecValTok{4}\NormalTok{, }\AttributeTok{lwd =} \DecValTok{4}\NormalTok{)}
+\NormalTok{  \})}
+
+\NormalTok{\}}
+
+\FunctionTok{shinyApp}\NormalTok{(}\AttributeTok{ui =}\NormalTok{ ui, }\AttributeTok{server =}\NormalTok{ server)}
+\end{Highlighting}
+\end{Shaded}
+
+\newpage
+
+\hypertarget{part-2.-how-to-customize-reactions-ch.-11-23}{%
+\subsubsection{Part 2. How to customize reactions
+(ch.~11-23)}\label{part-2.-how-to-customize-reactions-ch.-11-23}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# 01{-}two{-}inputs.R}
+\CommentTok{\# \textasciitilde{} 00:58:10}
+
+\FunctionTok{library}\NormalTok{(shiny)}
+
+\NormalTok{ui }\OtherTok{\textless{}{-}} \FunctionTok{fluidPage}\NormalTok{(}
+  \FunctionTok{sliderInput}\NormalTok{(}\AttributeTok{inputId =} \StringTok{"num"}\NormalTok{, }
+    \AttributeTok{label =} \StringTok{"Choose a number"}\NormalTok{, }
+    \AttributeTok{value =} \DecValTok{25}\NormalTok{, }\AttributeTok{min =} \DecValTok{1}\NormalTok{, }\AttributeTok{max =} \DecValTok{100}\NormalTok{),}
+  \FunctionTok{textInput}\NormalTok{(}\AttributeTok{inputId =} \StringTok{"title"}\NormalTok{, }
+    \AttributeTok{label =} \StringTok{"Write a title"}\NormalTok{,}
+    \AttributeTok{value =} \StringTok{"Histogram of Random Normal Values"}\NormalTok{),}
+  \FunctionTok{plotOutput}\NormalTok{(}\StringTok{"hist"}\NormalTok{)}
+\NormalTok{)}
+
+\NormalTok{server }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(input, output) \{}
+\NormalTok{  output}\SpecialCharTok{$}\NormalTok{hist }\OtherTok{\textless{}{-}} \FunctionTok{renderPlot}\NormalTok{(\{}
+    \FunctionTok{hist}\NormalTok{(}\FunctionTok{rnorm}\NormalTok{(input}\SpecialCharTok{$}\NormalTok{num), }\AttributeTok{main =}\NormalTok{ input}\SpecialCharTok{$}\NormalTok{title)}
+\NormalTok{  \})}
+\NormalTok{\}}
+
+\FunctionTok{shinyApp}\NormalTok{(}\AttributeTok{ui =}\NormalTok{ ui, }\AttributeTok{server =}\NormalTok{ server)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# 02{-}two{-}outputs.R}
+\CommentTok{\# \textasciitilde{} 01:00:00}
+
+\FunctionTok{library}\NormalTok{(shiny)}
+
+\NormalTok{ui }\OtherTok{\textless{}{-}} \FunctionTok{fluidPage}\NormalTok{(}
+  \FunctionTok{sliderInput}\NormalTok{(}\AttributeTok{inputId =} \StringTok{"num"}\NormalTok{, }
+    \AttributeTok{label =} \StringTok{"Choose a number"}\NormalTok{, }
+    \AttributeTok{value =} \DecValTok{25}\NormalTok{, }\AttributeTok{min =} \DecValTok{1}\NormalTok{, }\AttributeTok{max =} \DecValTok{100}\NormalTok{),}
+  \FunctionTok{plotOutput}\NormalTok{(}\StringTok{"hist"}\NormalTok{),}
+  \FunctionTok{verbatimTextOutput}\NormalTok{(}\StringTok{"stats"}\NormalTok{)}
+\NormalTok{)}
+
+\NormalTok{server }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(input, output) \{}
+\NormalTok{  output}\SpecialCharTok{$}\NormalTok{hist }\OtherTok{\textless{}{-}} \FunctionTok{renderPlot}\NormalTok{(\{}
+    \FunctionTok{hist}\NormalTok{(}\FunctionTok{rnorm}\NormalTok{(input}\SpecialCharTok{$}\NormalTok{num))}
+\NormalTok{  \})}
+\NormalTok{  output}\SpecialCharTok{$}\NormalTok{stats }\OtherTok{\textless{}{-}} \FunctionTok{renderPrint}\NormalTok{(\{}
+    \FunctionTok{summary}\NormalTok{(}\FunctionTok{rnorm}\NormalTok{(input}\SpecialCharTok{$}\NormalTok{num))}
+\NormalTok{  \})}
+\NormalTok{\}}
+
+\FunctionTok{shinyApp}\NormalTok{(}\AttributeTok{ui =}\NormalTok{ ui, }\AttributeTok{server =}\NormalTok{ server)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# 03{-}reactive.R}
+\CommentTok{\# \textasciitilde{} 01:04:20}
+
+\FunctionTok{library}\NormalTok{(shiny)}
+
+\NormalTok{ui }\OtherTok{\textless{}{-}} \FunctionTok{fluidPage}\NormalTok{(}
+  \FunctionTok{sliderInput}\NormalTok{(}\AttributeTok{inputId =} \StringTok{"num"}\NormalTok{, }
+    \AttributeTok{label =} \StringTok{"Choose a number"}\NormalTok{, }
+    \AttributeTok{value =} \DecValTok{25}\NormalTok{, }\AttributeTok{min =} \DecValTok{1}\NormalTok{, }\AttributeTok{max =} \DecValTok{100}\NormalTok{),}
+  \FunctionTok{plotOutput}\NormalTok{(}\StringTok{"hist"}\NormalTok{),}
+  \FunctionTok{verbatimTextOutput}\NormalTok{(}\StringTok{"stats"}\NormalTok{)}
+\NormalTok{)}
+
+\NormalTok{server }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(input, output) \{}
+  
+\NormalTok{  data }\OtherTok{\textless{}{-}} \FunctionTok{reactive}\NormalTok{(\{}
+    \FunctionTok{rnorm}\NormalTok{(input}\SpecialCharTok{$}\NormalTok{num)}
+\NormalTok{  \})}
+  
+\NormalTok{  output}\SpecialCharTok{$}\NormalTok{hist }\OtherTok{\textless{}{-}} \FunctionTok{renderPlot}\NormalTok{(\{}
+    \FunctionTok{hist}\NormalTok{(}\FunctionTok{data}\NormalTok{())}
+\NormalTok{  \})}
+\NormalTok{  output}\SpecialCharTok{$}\NormalTok{stats }\OtherTok{\textless{}{-}} \FunctionTok{renderPrint}\NormalTok{(\{}
+    \FunctionTok{summary}\NormalTok{(}\FunctionTok{data}\NormalTok{())}
+\NormalTok{  \})}
+\NormalTok{\}}
+
+\FunctionTok{shinyApp}\NormalTok{(}\AttributeTok{ui =}\NormalTok{ ui, }\AttributeTok{server =}\NormalTok{ server)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# 04{-}isolate.R}
+\CommentTok{\# \textasciitilde{} 01:10:17}
+
+\FunctionTok{library}\NormalTok{(shiny)}
+
+\NormalTok{ui }\OtherTok{\textless{}{-}} \FunctionTok{fluidPage}\NormalTok{(}
+  \FunctionTok{sliderInput}\NormalTok{(}\AttributeTok{inputId =} \StringTok{"num"}\NormalTok{, }
+    \AttributeTok{label =} \StringTok{"Choose a number"}\NormalTok{, }
+    \AttributeTok{value =} \DecValTok{25}\NormalTok{, }\AttributeTok{min =} \DecValTok{1}\NormalTok{, }\AttributeTok{max =} \DecValTok{100}\NormalTok{),}
+  \FunctionTok{textInput}\NormalTok{(}\AttributeTok{inputId =} \StringTok{"title"}\NormalTok{, }
+    \AttributeTok{label =} \StringTok{"Write a title"}\NormalTok{,}
+    \AttributeTok{value =} \StringTok{"Histogram of Random Normal Values"}\NormalTok{),}
+  \FunctionTok{plotOutput}\NormalTok{(}\StringTok{"hist"}\NormalTok{)}
+\NormalTok{)}
+
+\NormalTok{server }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(input, output) \{}
+\NormalTok{  output}\SpecialCharTok{$}\NormalTok{hist }\OtherTok{\textless{}{-}} \FunctionTok{renderPlot}\NormalTok{(\{}
+    \FunctionTok{hist}\NormalTok{(}\FunctionTok{rnorm}\NormalTok{(input}\SpecialCharTok{$}\NormalTok{num), }\AttributeTok{main =} \FunctionTok{isolate}\NormalTok{(input}\SpecialCharTok{$}\NormalTok{title))}
+\NormalTok{  \})}
+\NormalTok{\}}
+
+\FunctionTok{shinyApp}\NormalTok{(}\AttributeTok{ui =}\NormalTok{ ui, }\AttributeTok{server =}\NormalTok{ server)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# 05{-}actionButton.R}
+\CommentTok{\# \textasciitilde{} 01:14:50 }
+
+
+\FunctionTok{library}\NormalTok{(shiny)}
+
+\NormalTok{ui }\OtherTok{\textless{}{-}} \FunctionTok{fluidPage}\NormalTok{(}
+  \FunctionTok{actionButton}\NormalTok{(}\AttributeTok{inputId =} \StringTok{"clicks"}\NormalTok{, }
+    \AttributeTok{label =} \StringTok{"Click me"}\NormalTok{)}
+\NormalTok{)}
+
+\NormalTok{server }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(input, output) \{}
+  \FunctionTok{observeEvent}\NormalTok{(input}\SpecialCharTok{$}\NormalTok{clicks, \{}
+   \FunctionTok{print}\NormalTok{(}\FunctionTok{as.numeric}\NormalTok{(input}\SpecialCharTok{$}\NormalTok{clicks))}
+\NormalTok{  \})}
+\NormalTok{\}}
+
+\FunctionTok{shinyApp}\NormalTok{(}\AttributeTok{ui =}\NormalTok{ ui, }\AttributeTok{server =}\NormalTok{ server)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# 06{-}observeEvent.R}
+\CommentTok{\# \textasciitilde{} 01:18:00}
+
+\FunctionTok{library}\NormalTok{(shiny)}
+
+\NormalTok{ui }\OtherTok{\textless{}{-}} \FunctionTok{fluidPage}\NormalTok{(}
+  \FunctionTok{sliderInput}\NormalTok{(}\AttributeTok{inputId =} \StringTok{"num"}\NormalTok{, }
+    \AttributeTok{label =} \StringTok{"Choose a number"}\NormalTok{,}
+    \AttributeTok{min =} \DecValTok{1}\NormalTok{, }\AttributeTok{max =} \DecValTok{100}\NormalTok{, }\AttributeTok{value =} \DecValTok{25}\NormalTok{),}
+  \FunctionTok{actionButton}\NormalTok{(}\AttributeTok{inputId =} \StringTok{"go"}\NormalTok{, }
+    \AttributeTok{label =} \StringTok{"Print Value"}\NormalTok{)}
+\NormalTok{)}
+
+\NormalTok{server }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(input, output) \{}
+  
+  \CommentTok{\# observe responds to the print button}
+  \CommentTok{\# but not the slider}
+  \FunctionTok{observeEvent}\NormalTok{(input}\SpecialCharTok{$}\NormalTok{go, \{}
+    \FunctionTok{print}\NormalTok{(}\FunctionTok{as.numeric}\NormalTok{(input}\SpecialCharTok{$}\NormalTok{num))}
+\NormalTok{  \})}
+\NormalTok{\}}
+
+\FunctionTok{shinyApp}\NormalTok{(}\AttributeTok{ui =}\NormalTok{ ui, }\AttributeTok{server =}\NormalTok{ server)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# 07{-}eventReactive.R}
+\CommentTok{\# \textasciitilde{} 01:20:22}
+
+\FunctionTok{library}\NormalTok{(shiny)}
+
+\NormalTok{ui }\OtherTok{\textless{}{-}} \FunctionTok{fluidPage}\NormalTok{(}
+  \FunctionTok{sliderInput}\NormalTok{(}\AttributeTok{inputId =} \StringTok{"num"}\NormalTok{, }
+    \AttributeTok{label =} \StringTok{"Choose a number"}\NormalTok{, }
+    \AttributeTok{value =} \DecValTok{25}\NormalTok{, }\AttributeTok{min =} \DecValTok{1}\NormalTok{, }\AttributeTok{max =} \DecValTok{100}\NormalTok{),}
+  \FunctionTok{actionButton}\NormalTok{(}\AttributeTok{inputId =} \StringTok{"go"}\NormalTok{, }
+    \AttributeTok{label =} \StringTok{"Update"}\NormalTok{),}
+  \FunctionTok{plotOutput}\NormalTok{(}\StringTok{"hist"}\NormalTok{)}
+\NormalTok{)}
+
+\NormalTok{server }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(input, output) \{}
+\NormalTok{  data }\OtherTok{\textless{}{-}} \FunctionTok{eventReactive}\NormalTok{(input}\SpecialCharTok{$}\NormalTok{go, \{}
+    \FunctionTok{rnorm}\NormalTok{(input}\SpecialCharTok{$}\NormalTok{num) }
+\NormalTok{  \})}
+  
+\NormalTok{  output}\SpecialCharTok{$}\NormalTok{hist }\OtherTok{\textless{}{-}} \FunctionTok{renderPlot}\NormalTok{(\{}
+    \FunctionTok{hist}\NormalTok{(}\FunctionTok{data}\NormalTok{())}
+\NormalTok{  \})}
+\NormalTok{\}}
+
+\FunctionTok{shinyApp}\NormalTok{(}\AttributeTok{ui =}\NormalTok{ ui, }\AttributeTok{server =}\NormalTok{ server)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# 08{-}reactiveValues.R}
+\CommentTok{\# \textasciitilde{} 01:24:18}
+
+\FunctionTok{library}\NormalTok{(shiny)}
+
+\NormalTok{ui }\OtherTok{\textless{}{-}} \FunctionTok{fluidPage}\NormalTok{(}
+  \FunctionTok{actionButton}\NormalTok{(}\AttributeTok{inputId =} \StringTok{"norm"}\NormalTok{, }\AttributeTok{label =} \StringTok{"Normal"}\NormalTok{),}
+  \FunctionTok{actionButton}\NormalTok{(}\AttributeTok{inputId =} \StringTok{"unif"}\NormalTok{, }\AttributeTok{label =} \StringTok{"Uniform"}\NormalTok{),}
+  \FunctionTok{plotOutput}\NormalTok{(}\StringTok{"hist"}\NormalTok{)}
+\NormalTok{)}
+
+\NormalTok{server }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(input, output) \{}
+
+\NormalTok{  rv }\OtherTok{\textless{}{-}} \FunctionTok{reactiveValues}\NormalTok{(}\AttributeTok{data =} \FunctionTok{rnorm}\NormalTok{(}\DecValTok{100}\NormalTok{))}
+
+  \FunctionTok{observeEvent}\NormalTok{(input}\SpecialCharTok{$}\NormalTok{norm, \{ rv}\SpecialCharTok{$}\NormalTok{data }\OtherTok{\textless{}{-}} \FunctionTok{rnorm}\NormalTok{(}\DecValTok{100}\NormalTok{) \})}
+  \FunctionTok{observeEvent}\NormalTok{(input}\SpecialCharTok{$}\NormalTok{unif, \{ rv}\SpecialCharTok{$}\NormalTok{data }\OtherTok{\textless{}{-}} \FunctionTok{runif}\NormalTok{(}\DecValTok{100}\NormalTok{) \})}
+
+\NormalTok{  output}\SpecialCharTok{$}\NormalTok{hist }\OtherTok{\textless{}{-}} \FunctionTok{renderPlot}\NormalTok{(\{ }
+    \FunctionTok{hist}\NormalTok{(rv}\SpecialCharTok{$}\NormalTok{data) }
+\NormalTok{  \})}
+\NormalTok{\}}
+
+\FunctionTok{shinyApp}\NormalTok{(}\AttributeTok{ui =}\NormalTok{ ui, }\AttributeTok{server =}\NormalTok{ server)}
+\end{Highlighting}
+\end{Shaded}
+
+\newpage
+
+\hypertarget{part-3.-how-to-customize-appearance-ch.-24-30-32}{%
+\subsubsection{Part 3. How to customize appearance (ch.~24-30 \&
+32)}\label{part-3.-how-to-customize-appearance-ch.-24-30-32}}
+
+You can \emph{skip over} the CSS chapter (ch.~31).
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# 02{-}tags.R}
+\CommentTok{\# \textasciitilde{} 01:50:20}
+
+\FunctionTok{library}\NormalTok{(shiny)}
+
+\NormalTok{ui }\OtherTok{\textless{}{-}} \FunctionTok{fluidPage}\NormalTok{(}
+  \FunctionTok{h1}\NormalTok{(}\StringTok{"My Shiny App"}\NormalTok{),}
+  \FunctionTok{p}\NormalTok{(}\AttributeTok{style =} \StringTok{"font{-}family:Impact"}\NormalTok{,}
+    \StringTok{"See other apps in the"}\NormalTok{,}
+    \FunctionTok{a}\NormalTok{(}\StringTok{"Shiny Showcase"}\NormalTok{,}
+      \AttributeTok{href =} \StringTok{"http://www.rstudio.com/products/shiny/shiny{-}user{-}showcase/"}\NormalTok{)}
+\NormalTok{  )}
+\NormalTok{)}
+
+\NormalTok{server }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(input, output)\{\}}
+
+\FunctionTok{shinyApp}\NormalTok{(}\AttributeTok{ui =}\NormalTok{ ui, }\AttributeTok{server =}\NormalTok{ server)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# 03{-}layout.R}
+\CommentTok{\# \textasciitilde{} 01:56:00}
+
+\FunctionTok{library}\NormalTok{(shiny)}
+
+\NormalTok{ui }\OtherTok{\textless{}{-}} \FunctionTok{fluidPage}\NormalTok{(}
+  \FunctionTok{fluidRow}\NormalTok{(}
+   \FunctionTok{column}\NormalTok{(}\DecValTok{3}\NormalTok{),}
+   \FunctionTok{column}\NormalTok{(}\DecValTok{5}\NormalTok{, }\FunctionTok{sliderInput}\NormalTok{(}\AttributeTok{inputId =} \StringTok{"num"}\NormalTok{, }
+     \AttributeTok{label =} \StringTok{"Choose a number"}\NormalTok{, }
+     \AttributeTok{value =} \DecValTok{25}\NormalTok{, }\AttributeTok{min =} \DecValTok{1}\NormalTok{, }\AttributeTok{max =} \DecValTok{100}\NormalTok{))}
+\NormalTok{  ),}
+  \FunctionTok{fluidRow}\NormalTok{(}
+    \FunctionTok{column}\NormalTok{(}\DecValTok{4}\NormalTok{, }\AttributeTok{offset =} \DecValTok{8}\NormalTok{,}
+      \FunctionTok{plotOutput}\NormalTok{(}\StringTok{"hist"}\NormalTok{)}
+\NormalTok{    )}
+\NormalTok{  )}
+\NormalTok{)}
+
+\NormalTok{server }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(input, output) \{}
+\NormalTok{  output}\SpecialCharTok{$}\NormalTok{hist }\OtherTok{\textless{}{-}} \FunctionTok{renderPlot}\NormalTok{(\{}
+    \FunctionTok{hist}\NormalTok{(}\FunctionTok{rnorm}\NormalTok{(input}\SpecialCharTok{$}\NormalTok{num))}
+\NormalTok{  \})}
+\NormalTok{\}}
+
+\FunctionTok{shinyApp}\NormalTok{(}\AttributeTok{ui =}\NormalTok{ ui, }\AttributeTok{server =}\NormalTok{ server)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# 04{-}well.R}
+\CommentTok{\# \textasciitilde{} 01:59:57}
+
+\FunctionTok{library}\NormalTok{(shiny)}
+
+\NormalTok{ui }\OtherTok{\textless{}{-}} \FunctionTok{fluidPage}\NormalTok{(}
+  \FunctionTok{wellPanel}\NormalTok{(}
+    \FunctionTok{sliderInput}\NormalTok{(}\AttributeTok{inputId =} \StringTok{"num"}\NormalTok{, }
+      \AttributeTok{label =} \StringTok{"Choose a number"}\NormalTok{, }
+      \AttributeTok{value =} \DecValTok{25}\NormalTok{, }\AttributeTok{min =} \DecValTok{1}\NormalTok{, }\AttributeTok{max =} \DecValTok{100}\NormalTok{),}
+    \FunctionTok{textInput}\NormalTok{(}\AttributeTok{inputId =} \StringTok{"title"}\NormalTok{, }
+      \AttributeTok{label =} \StringTok{"Write a title"}\NormalTok{,}
+      \AttributeTok{value =} \StringTok{"Histogram of Random Normal Values"}\NormalTok{)}
+\NormalTok{  ),}
+  \FunctionTok{plotOutput}\NormalTok{(}\StringTok{"hist"}\NormalTok{)}
+\NormalTok{)}
+
+\NormalTok{server }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(input, output) \{}
+\NormalTok{  output}\SpecialCharTok{$}\NormalTok{hist }\OtherTok{\textless{}{-}} \FunctionTok{renderPlot}\NormalTok{(\{}
+    \FunctionTok{hist}\NormalTok{(}\FunctionTok{rnorm}\NormalTok{(input}\SpecialCharTok{$}\NormalTok{num), }\AttributeTok{main =}\NormalTok{ input}\SpecialCharTok{$}\NormalTok{title)}
+\NormalTok{  \})}
+\NormalTok{\}}
+
+\FunctionTok{shinyApp}\NormalTok{(}\AttributeTok{ui =}\NormalTok{ ui, }\AttributeTok{server =}\NormalTok{ server)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# 05{-}tabs.R}
+\CommentTok{\# \textasciitilde{} 02:01:37}
+
+\FunctionTok{library}\NormalTok{(shiny)}
+
+\NormalTok{ui }\OtherTok{\textless{}{-}} \FunctionTok{fluidPage}\NormalTok{(}\AttributeTok{title =} \StringTok{"Random generator"}\NormalTok{,}
+  \FunctionTok{tabsetPanel}\NormalTok{(              }
+    \FunctionTok{tabPanel}\NormalTok{(}\AttributeTok{title =} \StringTok{"Normal data"}\NormalTok{,}
+      \FunctionTok{plotOutput}\NormalTok{(}\StringTok{"norm"}\NormalTok{),}
+      \FunctionTok{actionButton}\NormalTok{(}\StringTok{"renorm"}\NormalTok{, }\StringTok{"Resample"}\NormalTok{)}
+\NormalTok{    ),}
+    \FunctionTok{tabPanel}\NormalTok{(}\AttributeTok{title =} \StringTok{"Uniform data"}\NormalTok{,}
+      \FunctionTok{plotOutput}\NormalTok{(}\StringTok{"unif"}\NormalTok{),}
+      \FunctionTok{actionButton}\NormalTok{(}\StringTok{"reunif"}\NormalTok{, }\StringTok{"Resample"}\NormalTok{)}
+\NormalTok{    ),}
+    \FunctionTok{tabPanel}\NormalTok{(}\AttributeTok{title =} \StringTok{"Chi Squared data"}\NormalTok{,}
+      \FunctionTok{plotOutput}\NormalTok{(}\StringTok{"chisq"}\NormalTok{),}
+      \FunctionTok{actionButton}\NormalTok{(}\StringTok{"rechisq"}\NormalTok{, }\StringTok{"Resample"}\NormalTok{)}
+\NormalTok{    )}
+\NormalTok{  )}
+\NormalTok{)}
+
+\NormalTok{server }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(input, output) \{}
+  
+\NormalTok{  rv }\OtherTok{\textless{}{-}} \FunctionTok{reactiveValues}\NormalTok{(}
+    \AttributeTok{norm =} \FunctionTok{rnorm}\NormalTok{(}\DecValTok{500}\NormalTok{), }
+    \AttributeTok{unif =} \FunctionTok{runif}\NormalTok{(}\DecValTok{500}\NormalTok{),}
+    \AttributeTok{chisq =} \FunctionTok{rchisq}\NormalTok{(}\DecValTok{500}\NormalTok{, }\DecValTok{2}\NormalTok{))}
+  
+  \FunctionTok{observeEvent}\NormalTok{(input}\SpecialCharTok{$}\NormalTok{renorm, \{ rv}\SpecialCharTok{$}\NormalTok{norm }\OtherTok{\textless{}{-}} \FunctionTok{rnorm}\NormalTok{(}\DecValTok{500}\NormalTok{) \})}
+  \FunctionTok{observeEvent}\NormalTok{(input}\SpecialCharTok{$}\NormalTok{reunif, \{ rv}\SpecialCharTok{$}\NormalTok{unif }\OtherTok{\textless{}{-}} \FunctionTok{runif}\NormalTok{(}\DecValTok{500}\NormalTok{) \})}
+  \FunctionTok{observeEvent}\NormalTok{(input}\SpecialCharTok{$}\NormalTok{rechisq, \{ rv}\SpecialCharTok{$}\NormalTok{chisq }\OtherTok{\textless{}{-}} \FunctionTok{rchisq}\NormalTok{(}\DecValTok{500}\NormalTok{, }\DecValTok{2}\NormalTok{) \})}
+  
+\NormalTok{  output}\SpecialCharTok{$}\NormalTok{norm }\OtherTok{\textless{}{-}} \FunctionTok{renderPlot}\NormalTok{(\{}
+    \FunctionTok{hist}\NormalTok{(rv}\SpecialCharTok{$}\NormalTok{norm, }\AttributeTok{breaks =} \DecValTok{30}\NormalTok{, }\AttributeTok{col =} \StringTok{"grey"}\NormalTok{, }\AttributeTok{border =} \StringTok{"white"}\NormalTok{,}
+      \AttributeTok{main =} \StringTok{"500 random draws from a standard normal distribution"}\NormalTok{)}
+\NormalTok{  \})}
+\NormalTok{  output}\SpecialCharTok{$}\NormalTok{unif }\OtherTok{\textless{}{-}} \FunctionTok{renderPlot}\NormalTok{(\{}
+    \FunctionTok{hist}\NormalTok{(rv}\SpecialCharTok{$}\NormalTok{unif, }\AttributeTok{breaks =} \DecValTok{30}\NormalTok{, }\AttributeTok{col =} \StringTok{"grey"}\NormalTok{, }\AttributeTok{border =} \StringTok{"white"}\NormalTok{,}
+      \AttributeTok{main =} \StringTok{"500 random draws from a standard uniform distribution"}\NormalTok{)}
+\NormalTok{  \})}
+\NormalTok{  output}\SpecialCharTok{$}\NormalTok{chisq }\OtherTok{\textless{}{-}} \FunctionTok{renderPlot}\NormalTok{(\{}
+    \FunctionTok{hist}\NormalTok{(rv}\SpecialCharTok{$}\NormalTok{chisq, }\AttributeTok{breaks =} \DecValTok{30}\NormalTok{, }\AttributeTok{col =} \StringTok{"grey"}\NormalTok{, }\AttributeTok{border =} \StringTok{"white"}\NormalTok{,}
+       \AttributeTok{main =} \StringTok{"500 random draws from a Chi Square distribution with two degree of freedom"}\NormalTok{)}
+\NormalTok{  \})}
+\NormalTok{\}}
+
+\FunctionTok{shinyApp}\NormalTok{(}\AttributeTok{server =}\NormalTok{ server, }\AttributeTok{ui =}\NormalTok{ ui)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# 06{-}navlist.R}
+\CommentTok{\# \textasciitilde{} 02:03:53}
+
+\FunctionTok{library}\NormalTok{(shiny)}
+
+\NormalTok{ui }\OtherTok{\textless{}{-}} \FunctionTok{fluidPage}\NormalTok{(}\AttributeTok{title =} \StringTok{"Random generator"}\NormalTok{,}
+  \FunctionTok{navlistPanel}\NormalTok{(              }
+    \FunctionTok{tabPanel}\NormalTok{(}\AttributeTok{title =} \StringTok{"Normal data"}\NormalTok{,}
+      \FunctionTok{plotOutput}\NormalTok{(}\StringTok{"norm"}\NormalTok{),}
+      \FunctionTok{actionButton}\NormalTok{(}\StringTok{"renorm"}\NormalTok{, }\StringTok{"Resample"}\NormalTok{)}
+\NormalTok{    ),}
+    \FunctionTok{tabPanel}\NormalTok{(}\AttributeTok{title =} \StringTok{"Uniform data"}\NormalTok{,}
+      \FunctionTok{plotOutput}\NormalTok{(}\StringTok{"unif"}\NormalTok{),}
+      \FunctionTok{actionButton}\NormalTok{(}\StringTok{"reunif"}\NormalTok{, }\StringTok{"Resample"}\NormalTok{)}
+\NormalTok{    ),}
+    \FunctionTok{tabPanel}\NormalTok{(}\AttributeTok{title =} \StringTok{"Chi Squared data"}\NormalTok{,}
+      \FunctionTok{plotOutput}\NormalTok{(}\StringTok{"chisq"}\NormalTok{),}
+      \FunctionTok{actionButton}\NormalTok{(}\StringTok{"rechisq"}\NormalTok{, }\StringTok{"Resample"}\NormalTok{)}
+\NormalTok{    )}
+\NormalTok{  )}
+\NormalTok{)}
+
+\NormalTok{server }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(input, output) \{}
+  
+\NormalTok{  rv }\OtherTok{\textless{}{-}} \FunctionTok{reactiveValues}\NormalTok{(}
+    \AttributeTok{norm =} \FunctionTok{rnorm}\NormalTok{(}\DecValTok{500}\NormalTok{), }
+    \AttributeTok{unif =} \FunctionTok{runif}\NormalTok{(}\DecValTok{500}\NormalTok{),}
+    \AttributeTok{chisq =} \FunctionTok{rchisq}\NormalTok{(}\DecValTok{500}\NormalTok{, }\DecValTok{2}\NormalTok{))}
+  
+  \FunctionTok{observeEvent}\NormalTok{(input}\SpecialCharTok{$}\NormalTok{renorm, \{ rv}\SpecialCharTok{$}\NormalTok{norm }\OtherTok{\textless{}{-}} \FunctionTok{rnorm}\NormalTok{(}\DecValTok{500}\NormalTok{) \})}
+  \FunctionTok{observeEvent}\NormalTok{(input}\SpecialCharTok{$}\NormalTok{reunif, \{ rv}\SpecialCharTok{$}\NormalTok{unif }\OtherTok{\textless{}{-}} \FunctionTok{runif}\NormalTok{(}\DecValTok{500}\NormalTok{) \})}
+  \FunctionTok{observeEvent}\NormalTok{(input}\SpecialCharTok{$}\NormalTok{rechisq, \{ rv}\SpecialCharTok{$}\NormalTok{chisq }\OtherTok{\textless{}{-}} \FunctionTok{rchisq}\NormalTok{(}\DecValTok{500}\NormalTok{, }\DecValTok{2}\NormalTok{) \})}
+  
+\NormalTok{  output}\SpecialCharTok{$}\NormalTok{norm }\OtherTok{\textless{}{-}} \FunctionTok{renderPlot}\NormalTok{(\{}
+    \FunctionTok{hist}\NormalTok{(rv}\SpecialCharTok{$}\NormalTok{norm, }\AttributeTok{breaks =} \DecValTok{30}\NormalTok{, }\AttributeTok{col =} \StringTok{"grey"}\NormalTok{, }\AttributeTok{border =} \StringTok{"white"}\NormalTok{,}
+      \AttributeTok{main =} \StringTok{"500 random draws from a standard normal distribution"}\NormalTok{)}
+\NormalTok{  \})}
+\NormalTok{  output}\SpecialCharTok{$}\NormalTok{unif }\OtherTok{\textless{}{-}} \FunctionTok{renderPlot}\NormalTok{(\{}
+    \FunctionTok{hist}\NormalTok{(rv}\SpecialCharTok{$}\NormalTok{unif, }\AttributeTok{breaks =} \DecValTok{30}\NormalTok{, }\AttributeTok{col =} \StringTok{"grey"}\NormalTok{, }\AttributeTok{border =} \StringTok{"white"}\NormalTok{,}
+      \AttributeTok{main =} \StringTok{"500 random draws from a standard uniform distribution"}\NormalTok{)}
+\NormalTok{  \})}
+\NormalTok{  output}\SpecialCharTok{$}\NormalTok{chisq }\OtherTok{\textless{}{-}} \FunctionTok{renderPlot}\NormalTok{(\{}
+    \FunctionTok{hist}\NormalTok{(rv}\SpecialCharTok{$}\NormalTok{chisq, }\AttributeTok{breaks =} \DecValTok{30}\NormalTok{, }\AttributeTok{col =} \StringTok{"grey"}\NormalTok{, }\AttributeTok{border =} \StringTok{"white"}\NormalTok{,}
+       \AttributeTok{main =} \StringTok{"500 random draws from a Chi Square distribution with two degree of freedom"}\NormalTok{)}
+\NormalTok{  \})}
+\NormalTok{\}}
+
+\FunctionTok{shinyApp}\NormalTok{(}\AttributeTok{server =}\NormalTok{ server, }\AttributeTok{ui =}\NormalTok{ ui)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# 07{-}sidebar.R}
+\CommentTok{\# \textasciitilde{} 02:05:39}
+
+\FunctionTok{library}\NormalTok{(shiny)}
+
+\NormalTok{ui }\OtherTok{\textless{}{-}} \FunctionTok{fluidPage}\NormalTok{(}
+  \FunctionTok{sidebarLayout}\NormalTok{(}
+    \FunctionTok{sidebarPanel}\NormalTok{(}
+      \FunctionTok{sliderInput}\NormalTok{(}\AttributeTok{inputId =} \StringTok{"num"}\NormalTok{, }
+        \AttributeTok{label =} \StringTok{"Choose a number"}\NormalTok{, }
+        \AttributeTok{value =} \DecValTok{25}\NormalTok{, }\AttributeTok{min =} \DecValTok{1}\NormalTok{, }\AttributeTok{max =} \DecValTok{100}\NormalTok{),}
+      \FunctionTok{textInput}\NormalTok{(}\AttributeTok{inputId =} \StringTok{"title"}\NormalTok{, }
+        \AttributeTok{label =} \StringTok{"Write a title"}\NormalTok{,}
+        \AttributeTok{value =} \StringTok{"Histogram of Random Normal Values"}\NormalTok{)}
+\NormalTok{    ),}
+    \FunctionTok{mainPanel}\NormalTok{(}
+      \FunctionTok{plotOutput}\NormalTok{(}\StringTok{"hist"}\NormalTok{)}
+\NormalTok{    )}
+\NormalTok{  )}
+\NormalTok{)}
+
+\NormalTok{server }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(input, output) \{}
+\NormalTok{  output}\SpecialCharTok{$}\NormalTok{hist }\OtherTok{\textless{}{-}} \FunctionTok{renderPlot}\NormalTok{(\{}
+    \FunctionTok{hist}\NormalTok{(}\FunctionTok{rnorm}\NormalTok{(input}\SpecialCharTok{$}\NormalTok{num), }\AttributeTok{main =}\NormalTok{ input}\SpecialCharTok{$}\NormalTok{title)}
+\NormalTok{  \})}
+\NormalTok{\}}
+
+\FunctionTok{shinyApp}\NormalTok{(}\AttributeTok{ui =}\NormalTok{ ui, }\AttributeTok{server =}\NormalTok{ server)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# 08{-}navbarPage.R}
+\CommentTok{\# \textasciitilde{} 02:07:56}
+
+\FunctionTok{library}\NormalTok{(shiny)}
+
+\NormalTok{ui }\OtherTok{\textless{}{-}} \FunctionTok{navbarPage}\NormalTok{(}\AttributeTok{title =} \StringTok{"Random generator"}\NormalTok{,}
+    \FunctionTok{tabPanel}\NormalTok{(}\AttributeTok{title =} \StringTok{"Normal data"}\NormalTok{,}
+      \FunctionTok{plotOutput}\NormalTok{(}\StringTok{"norm"}\NormalTok{),}
+      \FunctionTok{actionButton}\NormalTok{(}\StringTok{"renorm"}\NormalTok{, }\StringTok{"Resample"}\NormalTok{)}
+\NormalTok{    ),}
+    \FunctionTok{tabPanel}\NormalTok{(}\AttributeTok{title =} \StringTok{"Uniform data"}\NormalTok{,}
+      \FunctionTok{plotOutput}\NormalTok{(}\StringTok{"unif"}\NormalTok{),}
+      \FunctionTok{actionButton}\NormalTok{(}\StringTok{"reunif"}\NormalTok{, }\StringTok{"Resample"}\NormalTok{)}
+\NormalTok{    ),}
+    \FunctionTok{tabPanel}\NormalTok{(}\AttributeTok{title =} \StringTok{"Chi Squared data"}\NormalTok{,}
+      \FunctionTok{plotOutput}\NormalTok{(}\StringTok{"chisq"}\NormalTok{),}
+      \FunctionTok{actionButton}\NormalTok{(}\StringTok{"rechisq"}\NormalTok{, }\StringTok{"Resample"}\NormalTok{)}
+\NormalTok{    )}
+
+\NormalTok{)}
+
+\NormalTok{server }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(input, output) \{}
+  
+\NormalTok{  rv }\OtherTok{\textless{}{-}} \FunctionTok{reactiveValues}\NormalTok{(}
+    \AttributeTok{norm =} \FunctionTok{rnorm}\NormalTok{(}\DecValTok{500}\NormalTok{), }
+    \AttributeTok{unif =} \FunctionTok{runif}\NormalTok{(}\DecValTok{500}\NormalTok{),}
+    \AttributeTok{chisq =} \FunctionTok{rchisq}\NormalTok{(}\DecValTok{500}\NormalTok{, }\DecValTok{2}\NormalTok{))}
+  
+  \FunctionTok{observeEvent}\NormalTok{(input}\SpecialCharTok{$}\NormalTok{renorm, \{ rv}\SpecialCharTok{$}\NormalTok{norm }\OtherTok{\textless{}{-}} \FunctionTok{rnorm}\NormalTok{(}\DecValTok{500}\NormalTok{) \})}
+  \FunctionTok{observeEvent}\NormalTok{(input}\SpecialCharTok{$}\NormalTok{reunif, \{ rv}\SpecialCharTok{$}\NormalTok{unif }\OtherTok{\textless{}{-}} \FunctionTok{runif}\NormalTok{(}\DecValTok{500}\NormalTok{) \})}
+  \FunctionTok{observeEvent}\NormalTok{(input}\SpecialCharTok{$}\NormalTok{rechisq, \{ rv}\SpecialCharTok{$}\NormalTok{chisq }\OtherTok{\textless{}{-}} \FunctionTok{rchisq}\NormalTok{(}\DecValTok{500}\NormalTok{, }\DecValTok{2}\NormalTok{) \})}
+  
+\NormalTok{  output}\SpecialCharTok{$}\NormalTok{norm }\OtherTok{\textless{}{-}} \FunctionTok{renderPlot}\NormalTok{(\{}
+    \FunctionTok{hist}\NormalTok{(rv}\SpecialCharTok{$}\NormalTok{norm, }\AttributeTok{breaks =} \DecValTok{30}\NormalTok{, }\AttributeTok{col =} \StringTok{"grey"}\NormalTok{, }\AttributeTok{border =} \StringTok{"white"}\NormalTok{,}
+      \AttributeTok{main =} \StringTok{"500 random draws from a standard normal distribution"}\NormalTok{)}
+\NormalTok{  \})}
+\NormalTok{  output}\SpecialCharTok{$}\NormalTok{unif }\OtherTok{\textless{}{-}} \FunctionTok{renderPlot}\NormalTok{(\{}
+    \FunctionTok{hist}\NormalTok{(rv}\SpecialCharTok{$}\NormalTok{unif, }\AttributeTok{breaks =} \DecValTok{30}\NormalTok{, }\AttributeTok{col =} \StringTok{"grey"}\NormalTok{, }\AttributeTok{border =} \StringTok{"white"}\NormalTok{,}
+      \AttributeTok{main =} \StringTok{"500 random draws from a standard uniform distribution"}\NormalTok{)}
+\NormalTok{  \})}
+\NormalTok{  output}\SpecialCharTok{$}\NormalTok{chisq }\OtherTok{\textless{}{-}} \FunctionTok{renderPlot}\NormalTok{(\{}
+    \FunctionTok{hist}\NormalTok{(rv}\SpecialCharTok{$}\NormalTok{chisq, }\AttributeTok{breaks =} \DecValTok{30}\NormalTok{, }\AttributeTok{col =} \StringTok{"grey"}\NormalTok{, }\AttributeTok{border =} \StringTok{"white"}\NormalTok{,}
+       \AttributeTok{main =} \StringTok{"500 random draws from a Chi Square distribution with two degree of freedom"}\NormalTok{)}
+\NormalTok{  \})}
+\NormalTok{\}}
+
+\FunctionTok{shinyApp}\NormalTok{(}\AttributeTok{server =}\NormalTok{ server, }\AttributeTok{ui =}\NormalTok{ ui)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# 09{-}navbarMenu.R}
+\CommentTok{\# \textasciitilde{} 02:09:43}
+
+\FunctionTok{library}\NormalTok{(shiny)}
+
+\NormalTok{ui }\OtherTok{\textless{}{-}} \FunctionTok{navbarPage}\NormalTok{(}\AttributeTok{title =} \StringTok{"Random generator"}\NormalTok{,}
+  \FunctionTok{tabPanel}\NormalTok{(}\AttributeTok{title =} \StringTok{"Normal data"}\NormalTok{,}
+    \FunctionTok{plotOutput}\NormalTok{(}\StringTok{"norm"}\NormalTok{),}
+    \FunctionTok{actionButton}\NormalTok{(}\StringTok{"renorm"}\NormalTok{, }\StringTok{"Resample"}\NormalTok{)}
+\NormalTok{  ),}
+  \FunctionTok{navbarMenu}\NormalTok{(}\AttributeTok{title =} \StringTok{"Other data"}\NormalTok{,}
+    \FunctionTok{tabPanel}\NormalTok{(}\AttributeTok{title =} \StringTok{"Uniform data"}\NormalTok{,}
+      \FunctionTok{plotOutput}\NormalTok{(}\StringTok{"unif"}\NormalTok{),}
+      \FunctionTok{actionButton}\NormalTok{(}\StringTok{"reunif"}\NormalTok{, }\StringTok{"Resample"}\NormalTok{)}
+\NormalTok{    ),}
+    \FunctionTok{tabPanel}\NormalTok{(}\AttributeTok{title =} \StringTok{"Chi Squared data"}\NormalTok{,}
+      \FunctionTok{plotOutput}\NormalTok{(}\StringTok{"chisq"}\NormalTok{),}
+      \FunctionTok{actionButton}\NormalTok{(}\StringTok{"rechisq"}\NormalTok{, }\StringTok{"Resample"}\NormalTok{)}
+\NormalTok{    )}
+\NormalTok{  )}
+\NormalTok{)}
+
+\NormalTok{server }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(input, output) \{}
+  
+\NormalTok{  rv }\OtherTok{\textless{}{-}} \FunctionTok{reactiveValues}\NormalTok{(}
+    \AttributeTok{norm =} \FunctionTok{rnorm}\NormalTok{(}\DecValTok{500}\NormalTok{), }
+    \AttributeTok{unif =} \FunctionTok{runif}\NormalTok{(}\DecValTok{500}\NormalTok{),}
+    \AttributeTok{chisq =} \FunctionTok{rchisq}\NormalTok{(}\DecValTok{500}\NormalTok{, }\DecValTok{2}\NormalTok{))}
+  
+  \FunctionTok{observeEvent}\NormalTok{(input}\SpecialCharTok{$}\NormalTok{renorm, \{ rv}\SpecialCharTok{$}\NormalTok{norm }\OtherTok{\textless{}{-}} \FunctionTok{rnorm}\NormalTok{(}\DecValTok{500}\NormalTok{) \})}
+  \FunctionTok{observeEvent}\NormalTok{(input}\SpecialCharTok{$}\NormalTok{reunif, \{ rv}\SpecialCharTok{$}\NormalTok{unif }\OtherTok{\textless{}{-}} \FunctionTok{runif}\NormalTok{(}\DecValTok{500}\NormalTok{) \})}
+  \FunctionTok{observeEvent}\NormalTok{(input}\SpecialCharTok{$}\NormalTok{rechisq, \{ rv}\SpecialCharTok{$}\NormalTok{chisq }\OtherTok{\textless{}{-}} \FunctionTok{rchisq}\NormalTok{(}\DecValTok{500}\NormalTok{, }\DecValTok{2}\NormalTok{) \})}
+  
+\NormalTok{  output}\SpecialCharTok{$}\NormalTok{norm }\OtherTok{\textless{}{-}} \FunctionTok{renderPlot}\NormalTok{(\{}
+    \FunctionTok{hist}\NormalTok{(rv}\SpecialCharTok{$}\NormalTok{norm, }\AttributeTok{breaks =} \DecValTok{30}\NormalTok{, }\AttributeTok{col =} \StringTok{"grey"}\NormalTok{, }\AttributeTok{border =} \StringTok{"white"}\NormalTok{,}
+      \AttributeTok{main =} \StringTok{"500 random draws from a standard normal distribution"}\NormalTok{)}
+\NormalTok{  \})}
+\NormalTok{  output}\SpecialCharTok{$}\NormalTok{unif }\OtherTok{\textless{}{-}} \FunctionTok{renderPlot}\NormalTok{(\{}
+    \FunctionTok{hist}\NormalTok{(rv}\SpecialCharTok{$}\NormalTok{unif, }\AttributeTok{breaks =} \DecValTok{30}\NormalTok{, }\AttributeTok{col =} \StringTok{"grey"}\NormalTok{, }\AttributeTok{border =} \StringTok{"white"}\NormalTok{,}
+      \AttributeTok{main =} \StringTok{"500 random draws from a standard uniform distribution"}\NormalTok{)}
+\NormalTok{  \})}
+\NormalTok{  output}\SpecialCharTok{$}\NormalTok{chisq }\OtherTok{\textless{}{-}} \FunctionTok{renderPlot}\NormalTok{(\{}
+    \FunctionTok{hist}\NormalTok{(rv}\SpecialCharTok{$}\NormalTok{chisq, }\AttributeTok{breaks =} \DecValTok{30}\NormalTok{, }\AttributeTok{col =} \StringTok{"grey"}\NormalTok{, }\AttributeTok{border =} \StringTok{"white"}\NormalTok{,}
+       \AttributeTok{main =} \StringTok{"500 random draws from a Chi Square distribution with two degree of freedom"}\NormalTok{)}
+\NormalTok{  \})}
+\NormalTok{\}}
+
+\FunctionTok{shinyApp}\NormalTok{(}\AttributeTok{server =}\NormalTok{ server, }\AttributeTok{ui =}\NormalTok{ ui)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(fivethirtyeight)}
+\NormalTok{show }\OtherTok{\textless{}{-}}\NormalTok{ fivethirtyeight}\SpecialCharTok{::}\NormalTok{mad\_men}
+\end{Highlighting}
+\end{Shaded}
+
+
+\end{document}
