@@ -53,7 +53,8 @@ knitr::opts_chunk$set(
 
 *Don't forget to order the columns correctly and only keep relevant rows before transforming into a network object.*
 
-> ANSWER:  
+> ANSWER:
+Migration between the countries was greater in 2000 relative to 1980. Some of the largest migrations flow were between the USA and the Great Britian and between Japan and Korea in both years. One of the lowest migration flows was between Kenya and Korea in both years.
 
 
 ```{r, message = FALSE}
@@ -63,27 +64,70 @@ MigrationFlows <- read_csv(paste0(path_in,"/MigrationFlows.csv"))
 # Argentina, Brazil, Great Britain, Japan, Kenya,  India, South Korea, United States
 countries <- c("ARG", "BRA", "JPN","GBR", "KEN", "IND","KOR", "USA")
 
-
-# need migration overall: 
-# do some prelim data wrangling to combine numbers for males + females
-
 #filter for the countries we want
 MigrationFlows1 <- MigrationFlows %>%
-  filter(origincode == countries, destcode == countries)
+  filter(origincode%in%countries, destcode%in%countries, Y1980 > 0 & Y2000 > 0 )
 
-#MigrationFlows1 <- MigrationFlows1 %>%
- # filter(destcode == countries)
+#combining males and females
+MigrationFlows2 <- MigrationFlows1 %>%
+  group_by(origincode, destcode)%>%
+  summarise(
+    T2000 = sum(Y2000),
+    T1980 = sum(Y1980)
+  )
+
+#network for 1980
+migration1980 <- select(MigrationFlows2, origincode, destcode, T1980)%>%
+  graph_from_data_frame(directed = TRUE)
+
+migration_network1980 <- ggnetwork(migration1980)
+ggplot(data = migration_network1980
+       , aes(x = x, y = y, xend = xend, yend = yend)) +
+  geom_edges(arrow=arrow(type="closed", length=unit(6,"pt"))
+            , color = "lightgray", aes(size=T1980)) +
+  geom_nodes() +
+  geom_nodelabel(aes(label = name)) +
+  theme_blank() + ggtitle("World migration network") + labs(size = "1980 Migration flow")
+
+#network for 2000
+migration2000 <- select(MigrationFlows2, origincode, destcode, T2000)%>%
+graph_from_data_frame(directed = TRUE)
 
 
-
+migration_network2000 <- ggnetwork(migration2000)
+ggplot(data = migration_network2000
+       , aes(x = x, y = y, xend = xend, yend = yend)) +
+  geom_edges(arrow=arrow(type="closed", length=unit(6,"pt"))
+            , color = "lightgray", aes(size = T2000)) +
+  geom_nodes() +
+  geom_nodelabel(aes(label = name)) +
+  theme_blank() + ggtitle("World migration network") + labs(size = "2000 Migration flow")
 
 ```
 
 1b. Compute the *unweighted* in-degree for Japan in this network from 2000, and the *weighted* in-degree for Japan in this network from 2000.  In 1-2 sentences, interpret these numbers in context (i.e., without using the terms "in-degree" or "weighted").
 
 > ANSWER:  
+The weighted value of Japan in 2000 is 636946. This means that the total number of migration into Japan from the countries in our data set is 636946.
+The unweighted value of Japan in 2000 
 
 ```{r}
+
+#weighted
+strength(migration2000, weights = E(migration2000)$T2000, mode = "in")
+
+#unweighted
+stats <- data_frame(name = V(migration2000)$name, 
+                    degree = V(migration2000)$degree, 
+                    wtdegree = V(migration2000)$wtdegree )
+
+V(migration2000)$betweenness <- igraph::betweenness(migration2000, weights=NA)
+stats$betweenness <- V(migration2000)$betweenness
+
+
+stats %>%
+  arrange(desc(betweenness)) %>%
+  slice(1:4)
 
 ```
 
@@ -93,7 +137,9 @@ MigrationFlows1 <- MigrationFlows %>%
 > ANSWER:
 
 ```{r}
+strength(migration2000, weights = E(migration2000)$T2000, mode = "in")
 
+strength(migration2000, weights = E(migration2000)$T2000, mode = "in")
 ```
 
 
@@ -102,16 +148,19 @@ MigrationFlows1 <- MigrationFlows %>%
 > ANSWER: 
 
 ```{r}
+strength(migration2000, weights = E(migration2000)$T2000, mode = "in")
 
+strength(migration2000, weights = E(migration2000)$T2000, mode = "in")
 ```
 
 
 1e. What is the diameter of this network in 2000? In 1-2 sentences, interpret this value.
 
-> ANSWER:  
+> ANSWER:
+The diameter of the network is 2. This means that the largest geodesic between any two countries is 2 away.
 
 ```{r}
-
+diameter(migration2000, directed = FALSE)
 ```
 
 
@@ -120,7 +169,8 @@ MigrationFlows1 <- MigrationFlows %>%
 > ANSWER: 
 
 ```{r}
-
+#E(migration2000)
+#vcount(migration2000)
 ```
 
 
@@ -172,6 +222,28 @@ Consider the figure "The Two Londons of 'Love Actually'" in [this FiveThirtyEigh
 2c. Based on the figure, for whom would the (unweighted) betweenness centrality measure be higher: Colin Firth or Hugh Grant?  Explain what this implies. 
 
 > ANSWER:  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 \newpage
