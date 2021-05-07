@@ -1,0 +1,71 @@
+---
+title: "Clustering"
+author: "Lorraine"
+date: "5/6/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Here, we simply have a set of observations X, and we want to understand the relationships among them. 
+A tree—sometimes called a dendrogram—is an attractive organizing structure for relationships.
+
+#Clustering
+##Hierarchical clustering
+1. Represent each case as a point in a Cartesian space.
+2. Make branching decisions based on how close together points or clouds of points are.
+
+```{r}
+library(mdsr)
+library(readxl)
+#filename <- list.files("C:/Users/Lorraine/Dropbox/Data Science/Data-Science/before class/16data", pattern = "public\\.xlsx")[1]
+cars <- read_excel("C:/Users/Lorraine/Dropbox/Data Science/Data-Science/before class/2016 FEGuide for DOE-OK to release-no-sales-5-8-2019_Mercedes_public.xlsx") %>% data.frame()
+cars <- cars %>%
+rename(make = Mfr.Name, model = Carline, displacement = Eng.Displ,
+cylinders = X..Cyl, city_mpg = City.FE..Guide....Conventional.Fuel,
+hwy_mpg = Hwy.FE..Guide....Conventional.Fuel, gears = X..Gears) %>%
+select(make, model, displacement, cylinders, gears, city_mpg, hwy_mpg) %>%
+distinct(model, .keep_all = TRUE) %>%
+filter(make == "Toyota")
+rownames(cars) <- cars$model
+glimpse(cars)
+
+```
+
+The dist() function takes a simple and pragmatic point of view: Each variable is equally important.
+The output of dist() gives the distance from each individual car to every other car.
+
+```{r}
+car_diffs <- dist(cars)
+str(car_diffs)
+```
+
+```{r}
+car_mat <- car_diffs %>% as.matrix()
+car_mat[1:6, 1:6] %>% round(digits = 2)
+```
+
+This point-to-point distance matrix is analogous to the tables that used to be printed on road maps giving the distance from one city to another, like Figure 9.2, which states that it is 1,095 miles from Atlanta to Boston, or 715 miles from Atlanta to Chicago. Notice that the distances are symmetric: It is the same distance from Boston to Los Angeles as from Los Angeles to Boston (3,036 miles, according to the table).
+
+```{r}
+library(ape)
+car_diffs %>%
+  hclust() %>%
+  as.phylo() %>%
+  plot(cex = 0.9, label.offset = 1)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
